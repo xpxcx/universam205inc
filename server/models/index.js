@@ -24,7 +24,11 @@ const Product = sequelize.define('Product', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    weight: {
+    size: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    unit: {
         type: DataTypes.STRING,
         allowNull: false
     }

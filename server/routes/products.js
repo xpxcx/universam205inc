@@ -99,4 +99,41 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
+// Создать тестовые продукты
+router.post('/seed', async (req, res) => {
+    try {
+        const testProducts = [
+            {
+                title: 'Шоколад Аленка',
+                price: 99.99,
+                imageUrl: 'https://ir.ozone.ru/s3/multimedia-3/wc1000/6563825719.jpg',
+                category: 'Сладости',
+                size: 90,
+                unit: 'г'
+            },
+            {
+                title: 'Coca-Cola',
+                price: 129.99,
+                imageUrl: 'https://ir.ozone.ru/s3/multimedia-w/wc1000/6544695640.jpg',
+                category: 'Напитки',
+                size: 500,
+                unit: 'мл'
+            },
+            {
+                title: 'Чипсы Lays',
+                price: 159.99,
+                imageUrl: 'https://ir.ozone.ru/s3/multimedia-1-x/wc1000/6635793005.jpg',
+                category: 'Снеки',
+                size: 140,
+                unit: 'г'
+            }
+        ];
+
+        const products = await Product.bulkCreate(testProducts);
+        res.json(products);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 module.exports = router;
