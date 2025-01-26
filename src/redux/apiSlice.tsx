@@ -103,7 +103,28 @@ export const apiSlice = createApi({
                 }
             }),
             invalidatesTags: ['Cart']
-        })
+        }),
+        removeAllCart: builder.mutation<{ message: string }, void> ({
+            query: () => ({
+                url: '/cart/clear',
+                method: 'DELETE',
+                headers: {
+                    'user-id': '1'
+                }
+            }),
+            invalidatesTags: ['Cart']
+        }),
+        updateCountProduct: builder.mutation<CartResponse, { productId: number, quantity: number}> ({
+            query: ({ productId, quantity }) => ({
+                url: `/cart/update/${productId}`,
+                method: 'PUT',
+                body: { quantity },
+                headers: {
+                    'user-id': '1'
+                }
+            }),
+            invalidatesTags: ['Cart']
+        }),
     })
 });
 
@@ -112,4 +133,6 @@ export const {
     useGetCartQuery,
     useAddToCartMutation,
     useRemoveFromCartMutation,
+    useRemoveAllCartMutation,
+    useUpdateCountProductMutation,
 } = apiSlice;

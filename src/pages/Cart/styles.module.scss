@@ -9,6 +9,7 @@
   display: flex;
   position: relative;
   width: 67%;
+  min-width: 790px;
   border: 1px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.191);
   margin-left: 10px;
@@ -91,29 +92,46 @@
     justify-content: center;
     align-items: center;
   }
-  .plus {
-    margin: 0;
     cursor: pointer;
+    .plus, .minus{
+    margin: 0;
     opacity: 0.5;
     transition: 0.2s ease-in-out;
-    &:hover {
+    border: 0;
+    background-color: #ffffff;
+    &:not(:disabled):hover {
       opacity: 1;
+      cursor: pointer;
+    }
+    &:disabled {
+      cursor: default;
+      
     }
   }
   .count {
     margin: 0;
     margin-top: 15px;
-    margin-bottom: 15px;
-    
+    margin-bottom: 15px;  
   }
-  .minus {
-    margin: 0;
+  
+}
+.buttonOrder {
+  border: 0;
+  border-radius: 15px;
+  padding: 9px;
+  background-color: rgb(98, 189, 98);
+  transition: 0.2s ease-in-out;
+  &:hover {
+    background-color:  darken(rgb(98, 189, 98), 15%);
+  }
+}
+
+.clearCartButton {
+  border: 0;
+  background-color: #ffffff;
+  align-self: flex-end;
+  &:hover {
     cursor: pointer;
-    opacity: 0.5;
-    transition: 0.2s ease-in-out;
-    &:hover {
-      opacity: 1;
-    }
   }
 }
 .clearCart{
@@ -149,4 +167,6 @@
         background-color: darken(rgb(98, 189, 98), 15%);
       }
     }
+    
+
   }

@@ -11,9 +11,12 @@ export const Header = () => {
                 <h1 className={styles.title}>Универсам 205</h1>
                 </Link>
                     <Link to='/cart' className={styles.linkCart}>
-                    <div className={styles.cart}>
-                        <img className={styles.cartLogo}src="/img/cart-logo.svg" alt="" />
-                        <p className={styles.totalPrice}>{cartItem?.totalPrice}</p>
+                    <div className={cartItem?.totalPrice === 0 ? styles.cartEmpty : styles.cart}>
+                        <img className={styles.cartLogo} src="/img/cart-logo.svg" alt="" />
+                        {cartItem?.totalPrice === 0 ? null : 
+                            <p className={styles.totalPrice}>{Math.round(cartItem?.totalPrice ?? 0)} ₽</p>
+                        }
+                        
                     </div>
                 </Link>
             </div>
