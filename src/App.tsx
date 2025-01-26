@@ -1,18 +1,17 @@
-import React from "react";
 import './index.scss'
-import { Home } from "./pages/Home";
+import { Home } from "./pages/Home/index.tsx";
 import { Routes, Route } from "react-router";
-import { Cart } from "./pages/Cart";
-import { MainLayout } from "./layouts/MainLayout";
+import { MainLayout } from "./layouts/MainLayouts/index.tsx";
+import { Cart } from "./pages/Cart/index.tsx";
 import { CartEmpty } from "./pages/Cart/CartEmpty";
-function App() {
 
+function App() {
   return (
     <div className="wrapper">
       <Routes>
         <Route path="/" element={<MainLayout/>}>
           <Route path='/' element={<Home/>}/>
-          <Route path='/cart' element={<CartEmpty/>}/>
+          <Route path='/cart' element={<Cart/>}/>
         </Route>
       </Routes>
     </div>

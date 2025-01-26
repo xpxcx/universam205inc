@@ -1,0 +1,148 @@
+.cart{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.item {
+  display: flex;
+  position: relative;
+  width: 67%;
+  border: 1px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.191);
+  margin-left: 10px;
+  border-radius: 19px;
+  padding: 10px;
+  margin-bottom: 15px;
+  margin-right: 25px;
+  margin-top: 35px;
+  .sizeItem  {
+    position: absolute;
+    left: 531px;
+    top: 29px;
+    // display: flex;
+    // right: 19px;
+    // bottom: 95px;
+    opacity: 0.5;
+    margin-left: 15px;
+  }
+  .title{
+    font-size: 14px;
+    margin-bottom: 3px;
+    margin-top: 35px;
+    margin-left: 55px;
+
+  }
+  .pricetext {
+    position: absolute;
+    opacity: 0.5;
+    margin: 0;
+    left: 105px;
+    bottom: 75px;
+    margin-left: 16px;
+  }
+  .price{
+    position: absolute;
+    font-size: 17px;
+    margin: 0;
+    left: 105px;
+    bottom: 45px;
+    margin-left: 16px;
+  }
+
+  .itemimg {
+    height: 150px; 
+    display: flex;
+    margin-left: 15px;
+    img {
+      max-width: 80%;
+      max-height: 100%;
+      object-fit: contain; 
+    }
+  }
+  .trash {
+    display: block;
+    margin-left: auto;
+    margin-top: 15px;
+    margin-right: 15px;
+    opacity: 0.5;
+    transition: 0.2s ease-in-out;
+    &:hover {
+      opacity: 1;
+      cursor: pointer;
+    }
+  }
+  .totalPrice {
+    position: absolute;
+    right: 15px;
+    top: 55px;
+    margin-left: auto;
+    margin-top: 15px;
+  }
+  .countItem {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    top: 33px;
+    right: 155px;
+    justify-content: center;
+    align-items: center;
+  }
+  .plus {
+    margin: 0;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: 0.2s ease-in-out;
+    &:hover {
+      opacity: 1;
+    }
+  }
+  .count {
+    margin: 0;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    
+  }
+  .minus {
+    margin: 0;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: 0.2s ease-in-out;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+.clearCart{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 45px;
+    padding: 15px;
+    
+    .title{
+      margin: 0;
+      margin-top: 25px;
+    }
+
+    .descr{
+      margin: 0;
+    }
+    button {
+      width: 170px;
+      height: 37px;
+      margin-top: 25px;
+      margin-bottom: 45px;
+      border: 0;
+      border-radius: 15px;
+      background-color: rgb(98, 189, 98);
+      padding: 5px;
+      padding-left: 9px;
+      padding-right: 9px;
+      color: #ffffff;
+      transition: 0.2s ease-in-out;
+      &:hover{
+        background-color: darken(rgb(98, 189, 98), 15%);
+      }
+    }
+  }

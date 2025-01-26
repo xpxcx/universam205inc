@@ -1,0 +1,83 @@
+
+  .item {
+    display: block;
+    position: relative;
+    width: 225px;
+    height: 385px;
+    border: 1px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.191);
+    // margin-left: 10px;
+    border-radius: 19px;
+    padding: 10px;
+    margin-bottom: 15px;
+    transition: 0.2s ease-in-out;
+    margin-right: 25px;
+    margin-top: 35px;
+    .instockBlock {
+        position: absolute;
+        bottom: 35px;
+        // margin: 0;
+        // padding: 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        h2{
+          margin-left: 5px;
+          margin-bottom: 14px;
+        }
+    }
+    &:hover{
+      transform: translateY(-5px);
+    }
+    .sizeItem  {
+      position: absolute;
+      display: flex;
+      right: 19px;
+      bottom: 95px;
+      opacity: 0.5;
+      
+    }
+    h2{
+      font-size: 14px;
+      margin-bottom: 3px;
+      margin-top: 15px;
+      
+    }
+    .pricetext {
+      opacity: 0.5;
+      margin: 0;
+    }
+    .price{
+      font-size: 19px;
+      margin: 0;
+    }
+
+    .itemimg {
+      width: 100%; // занимает всю доступную ширину родителя
+      height: 200px; // фиксированная высота для всех карточек
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      // margin-bottom: 10px; // отступ от текста
+  
+      img {
+        max-width: 80%; // чтобы картинка не прижималась к краям
+        max-height: 100%;
+        object-fit: contain; // сохраняет пропорции
+      }
+    }
+   
+      .addCartButton{
+        position: absolute;
+        right: 15px;
+        bottom: 15px;
+        width: 30px;
+        height: 30px;
+        opacity: 0.5;
+        &:hover{
+          cursor: pointer;
+          opacity: 1;
+        }
+    }
+  }

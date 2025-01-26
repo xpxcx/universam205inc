@@ -1,0 +1,28 @@
+.categories {
+    display: flex;
+    flex-direction: row;
+    height: 55px;
+    width: auto;
+    
+    li {
+      display: flex;
+      list-style-type: none;
+      margin: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.191);
+      background-color: hsl(0, 0%, 92%);
+      border-radius: 15px;
+      padding: 5px;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+      transition: 0.2s ease-in-out;
+      &:hover{
+        cursor: pointer;
+      }
+      
+    }
+    .active{
+      background-color: rgb(72, 72, 72);
+      color: #ffff
+    }
+  }

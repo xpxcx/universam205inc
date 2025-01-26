@@ -1,0 +1,10 @@
+.containerHome {
+    position: relative;
+    display: flex;
+    margin: 25px;
+    padding: 11px;
+    .items{
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }

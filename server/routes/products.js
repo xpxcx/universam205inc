@@ -45,13 +45,19 @@ router.get('/:id', async (req, res) => {
 // Добавить новый товар
 router.post('/', async (req, res) => {
     try {
-        const { title, price, imageUrl, category, weight } = req.body;
+        const { title, price, imageUrl, category, size, unit, rating, reviews, article, brand, inStock } = req.body;
         const product = await Product.create({
             title,
             price,
             imageUrl,
             category,
-            weight
+            size,
+            unit,
+            rating,
+            reviews,
+            article,
+            brand,
+            inStock
         });
         res.status(201).json(product);
     } catch (error) {
@@ -62,7 +68,7 @@ router.post('/', async (req, res) => {
 // Обновить товар
 router.put('/:id', async (req, res) => {
     try {
-        const { title, price, imageUrl, category, weight } = req.body;
+        const { title, price, imageUrl, category, size, unit, rating, reviews, article, brand, inStock } = req.body;
         const product = await Product.findByPk(req.params.id);
         
         if (!product) {
@@ -74,7 +80,13 @@ router.put('/:id', async (req, res) => {
             price,
             imageUrl,
             category,
-            weight
+            size,
+            unit,
+            rating,
+            reviews,
+            article,
+            brand,
+            inStock
         });
 
         res.json(product);
@@ -104,28 +116,43 @@ router.post('/seed', async (req, res) => {
     try {
         const testProducts = [
             {
-                title: 'Шоколад Аленка',
-                price: 99.99,
-                imageUrl: 'https://ir.ozone.ru/s3/multimedia-3/wc1000/6563825719.jpg',
-                category: 'Сладости',
-                size: 90,
-                unit: 'г'
-            },
-            {
-                title: 'Coca-Cola',
-                price: 129.99,
-                imageUrl: 'https://ir.ozone.ru/s3/multimedia-w/wc1000/6544695640.jpg',
-                category: 'Напитки',
+                title: 'Вода питьевая ЗДОРОВАЯ ВОДА Акварояль негазированная',
+                price: 24.99,
+                imageUrl: 'https://cdn.lentochka.lenta.com/resample/webp/900x900/photo/720109/0c4c3e54-44aa-4645-b067-e304f2d1d5cf.png',
+                category: 'Вода, сок, газировка',
                 size: 500,
-                unit: 'мл'
+                unit: 'мл',
+                rating: 5.0,
+                reviews: 1,
+                article: '720109',
+                brand: 'ЗДОРОВАЯ ВОДА',
+                inStock: 513
             },
             {
-                title: 'Чипсы Lays',
-                price: 159.99,
-                imageUrl: 'https://ir.ozone.ru/s3/multimedia-1-x/wc1000/6635793005.jpg',
-                category: 'Снеки',
-                size: 140,
-                unit: 'г'
+                title: 'Лапша DOSHIRAK со вкусом говядины',
+                price: 59.99,
+                imageUrl: 'https://cdn.lentochka.lenta.com/resample/webp/900x900/photo/51625/081b3dd6-9b60-47ec-a0a2-4db40842b853.png',
+                category: 'Бакалея',
+                size: 90,
+                unit: 'г',
+                rating: 4.9,
+                reviews: 185,
+                article: '051625',
+                brand: 'DOSHIRAK',
+                inStock: 100
+            },
+            {
+                title: 'Напиток энергетический BURN сильногазированный',
+                price: 109.99,
+                imageUrl: 'https://cdn.lentochka.lenta.com/resample/webp/900x900/photo/534125/6e159272-e186-46cf-9dd3-3b7781a04e3e.png',
+                category: 'Вода, сок, газировка',
+                size: 449,
+                unit: 'мл',
+                rating: 4.8,
+                reviews: 95,
+                article: '534125',
+                brand: 'BURN',
+                inStock: 100
             }
         ];
 

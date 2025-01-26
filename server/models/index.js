@@ -31,6 +31,29 @@ const Product = sequelize.define('Product', {
     unit: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    rating: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        defaultValue: 0
+    },
+    reviews: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+    },
+    article: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    brand: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    inStock: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0
     }
 });
 
