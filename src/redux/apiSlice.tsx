@@ -36,12 +36,22 @@ interface CartResponse {
         title: string;
         imageUrl: string;
         price: number;
+        size: number,
+        unit: string,
+        quantity: number,
         CartItem: {
             quantity: number;
         }
-    }[]
+        
+    }[];
+    totalPrice: number,
+    totalCount: number,
 }
 
+interface AddCart {
+    productId: number,
+    quantity: number,
+}
 export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001/api'}),
@@ -59,12 +69,47 @@ export const apiSlice = createApi({
                 url: '/cart',
                 headers: {'user-id': '1'},
             }),
-            providesTags: ['Cart']
+            providesTags: ['Cart'],
+            transformResponse: (response: CartResponse) => ({
+                ...response,
+                totalPrice: response.Products?.reduce(
+                    (sum, item) => sum + (item.CartItem.quantity*item.price), 0 || 0
+                ),
+                totalCount: response.Products?.reduce(
+                    (sum, item) => sum + item.CartItem.quantity, 0 || 0
+                )
+            })
+
         }),
+
+        addToCart: builder.mutation<CartResponse, AddCart>({
+            query: (body) => ({
+                url: '/cart/add',
+                method: 'POST',
+                body,
+                headers: {
+                    'user-id': '1'
+                }
+
+            }),
+                invalidatesTags: ['Cart']
+        }),
+        removeFromCart: builder.mutation<CartResponse, number>({
+            query: (productId) => ({
+                url: `/cart/remove/${productId}`,
+                method: 'DELETE',
+                headers: {
+                    'user-id': '1'
+                }
+            }),
+            invalidatesTags: ['Cart']
+        })
     })
 });
 
 export const {
     useGetProductsQuery,
     useGetCartQuery,
+    useAddToCartMutation,
+    useRemoveFromCartMutation,
 } = apiSlice;

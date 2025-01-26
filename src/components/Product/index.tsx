@@ -1,5 +1,7 @@
+import { useAddToCartMutation } from '../../redux/apiSlice';
 import styles from './styles.module.scss';
 type CartItemProps = {
+    id: number,
     title: string,
     price: number,
     imageUrl: string,
@@ -8,8 +10,19 @@ type CartItemProps = {
     inStock: number,
 }
 
-export const Product: React.FC<CartItemProps> = ({ title, price, imageUrl, size, unit, inStock}) => {
+
+export const Product: React.FC<CartItemProps> = ({ id, title, price, imageUrl, size, unit, inStock}) => {
+    
+    const [addToCart] = useAddToCartMutation();
+    const addToCartBtn = (productId: number) => {
+        addToCart({
+            productId, 
+            quantity: 1
+        })
+    
+    }
     return (
+            
             <div className={styles.item}>
                 <div className={styles.itemimg}>
                     <img src={imageUrl} alt="items-img" />
@@ -25,7 +38,7 @@ export const Product: React.FC<CartItemProps> = ({ title, price, imageUrl, size,
                     <h2>{inStock > 0 ? inStock : "Товар закончился"}</h2>
                 </div>
                 
-                <img className={styles.addCartButton}src="/img/add-cart.svg" alt="plus" />
+                <img className={styles.addCartButton} src="/img/add-cart.svg" alt="plus" onClick={() => addToCartBtn(id)}/>
             </div>
     );
 };
