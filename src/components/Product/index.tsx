@@ -1,4 +1,4 @@
-import { useAddToCartMutation } from '../../redux/apiSlice';
+import { useAddOnFavoriteMutation, useAddToCartMutation, useGetFavoriteQuery, useRemoveFromFavoriteMutation } from '../../redux/apiSlice';
 import styles from './styles.module.scss';
 type CartItemProps = {
     id: number,
@@ -12,24 +12,44 @@ type CartItemProps = {
 
 
 export const Product: React.FC<CartItemProps> = ({ id, title, price, imageUrl, size, unit, inStock}) => {
-    
+    const [addToFavorite] = useAddOnFavoriteMutation();
     const [addToCart] = useAddToCartMutation();
+    const [removeFromFavorite] = useRemoveFromFavoriteMutation();
+    const { data: favorites } = useGetFavoriteQuery();
+
     const addToCartBtn = (productId: number) => {
         addToCart({
             productId, 
             quantity: 1
         })
-    
+    };
+    const onClickUnFavorite = (productId: number) => {
+        addToFavorite({ productId })
+    };  
+
+    const onClickFavorite = (productId: number) => {
+        removeFromFavorite(productId)
     }
+
+    const checkInFavorite = (productId: number) => {
+        return favorites?.Products?.some((product) => product.id === productId) ?? false;
+    };
+
     return (
             
             <div className={styles.item}>
+                
+                {checkInFavorite(id) ?  
+                <img className={styles.favorite} src="/img/liked.svg" alt="liked" width={15} height={15} onClick={() => onClickFavorite(id)} /> 
+                : 
+                <img className={styles.favorite} src="/img/unLiked.svg" alt="unLiked" width={15} height={15} onClick={() => onClickUnFavorite(id)} />
+                }
                 <div className={styles.itemimg}>
                     <img src={imageUrl} alt="items-img" />
                 </div>
-                <h2>{title}</h2>   
+                <h2 className={styles.title}>{title}</h2>   
                 <p className={styles.pricetext}>Цена за 1 шт:</p>
-                <p className={styles.price}>{price} ₽</p>
+                <p className={styles.price}>{Math.round(price)} ₽</p>
                 <div className={styles.sizeItem}>
                     <p>{size}{unit}</p>
                 </div>

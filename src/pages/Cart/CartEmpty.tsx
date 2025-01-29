@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import styles from './styles.module.scss';
-export const CartEmpty: React.FC = () => {
+export const CartEmpty = () => {
     return (
         <div className={styles.clearCart}>
             <img className={styles.clearCartImg} width={95} height={95}src="/img/clear-cart.svg" alt="" />

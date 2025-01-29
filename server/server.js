@@ -13,10 +13,12 @@ app.use(express.json());
 const productsRouter = require('./routes/products');
 const categoriesRouter = require('./routes/categories');
 const cartRouter = require('./routes/cart');
+const favoritesRouter = require('./routes/favorites');
 
 app.use('/api/products', productsRouter);
 app.use('/api/categories', categoriesRouter);
 app.use('/api/cart', cartRouter);
+app.use('/api/favorites', favoritesRouter);
 
 // Sync database
 sequelize.sync({ force: false }).then(() => {
@@ -26,7 +28,7 @@ sequelize.sync({ force: false }).then(() => {
 });
 
 // Start server
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3001;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });

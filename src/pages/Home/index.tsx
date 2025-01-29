@@ -6,20 +6,23 @@ import styles from './styles.module.scss';
 import { useGetProductsQuery } from "../../redux/apiSlice";
 
 export const Home = () => {
-    const { categoryID } = useAppSelector((state) => state.filter)
-    const { data: products } = useGetProductsQuery(categoryID);
+    const { categoryID, searchValue } = useAppSelector((state) => state.filter);
+    const { data: products } = useGetProductsQuery({categoryID: categoryID, search: searchValue});
+
+
 
     return (
         <div className={styles.containerHome}>
             <div className="content">
-                <Categories/>
                 <Search/>
+                <Categories/>
                 <div className={styles.items}>
                     {products?.map((obj:any) => 
                         <Product
                         key={obj.id}
                         {...obj}
                         details={obj.type === 'food' ? `${obj.weight}` : `${obj.volume}`}
+                        products={products}
                         />
                     )}
                 </div>

@@ -3,21 +3,23 @@
     display: block;
     position: relative;
     width: 225px;
-    height: 385px;
+    height: 395px;
     border: 1px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.191);
-    // margin-left: 10px;
     border-radius: 19px;
     padding: 10px;
     margin-bottom: 15px;
     transition: 0.2s ease-in-out;
     margin-right: 25px;
     margin-top: 35px;
+    .favorite {
+      margin: 0;
+      margin-left: 5px;
+      margin-top: 5px;
+    }
     .instockBlock {
         position: absolute;
-        bottom: 35px;
-        // margin: 0;
-        // padding: 0;
+        bottom: 25px;
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -34,15 +36,14 @@
       position: absolute;
       display: flex;
       right: 19px;
-      bottom: 95px;
+      bottom: 87px;
       opacity: 0.5;
       
     }
     h2{
       font-size: 14px;
-      margin-bottom: 3px;
+      margin-bottom: 5px;
       margin-top: 15px;
-      
     }
     .pricetext {
       opacity: 0.5;

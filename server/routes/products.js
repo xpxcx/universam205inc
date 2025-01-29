@@ -2,14 +2,16 @@ const router = require('express').Router();
 const { Product } = require('../models');
 const { Op } = require('sequelize');
 
+const categories = ['Все', 'Сладкое', 'Быстрое приготовление', 'Вода', 'Энергетики', 'Чипсы'];
+
 // Получить все товары
 router.get('/', async (req, res) => {
     try {
         const { category, search } = req.query;
         let whereClause = {};
 
-        if (category) {
-            whereClause.category = category;
+        if (category && category !== '0') {
+            whereClause.category = categories[category];
         }
 
         if (search) {
@@ -50,7 +52,7 @@ router.post('/', async (req, res) => {
             title,
             price,
             imageUrl,
-            category,
+            category: categories[category],
             size,
             unit,
             rating,
@@ -79,7 +81,7 @@ router.put('/:id', async (req, res) => {
             title,
             price,
             imageUrl,
-            category,
+            category: categories[category],
             size,
             unit,
             rating,
@@ -119,7 +121,7 @@ router.post('/seed', async (req, res) => {
                 title: 'Вода питьевая ЗДОРОВАЯ ВОДА Акварояль негазированная',
                 price: 24.99,
                 imageUrl: 'https://cdn.lentochka.lenta.com/resample/webp/900x900/photo/720109/0c4c3e54-44aa-4645-b067-e304f2d1d5cf.png',
-                category: 'Вода, сок, газировка',
+                category: categories.indexOf('Вода'),
                 size: 500,
                 unit: 'мл',
                 rating: 5.0,
@@ -132,7 +134,7 @@ router.post('/seed', async (req, res) => {
                 title: 'Лапша DOSHIRAK со вкусом говядины',
                 price: 59.99,
                 imageUrl: 'https://cdn.lentochka.lenta.com/resample/webp/900x900/photo/51625/081b3dd6-9b60-47ec-a0a2-4db40842b853.png',
-                category: 'Бакалея',
+                category: categories.indexOf('Быстрое приготовление'),
                 size: 90,
                 unit: 'г',
                 rating: 4.9,
@@ -145,7 +147,7 @@ router.post('/seed', async (req, res) => {
                 title: 'Напиток энергетический BURN сильногазированный',
                 price: 109.99,
                 imageUrl: 'https://cdn.lentochka.lenta.com/resample/webp/900x900/photo/534125/6e159272-e186-46cf-9dd3-3b7781a04e3e.png',
-                category: 'Вода, сок, газировка',
+                category: categories.indexOf('Энергетики'),
                 size: 449,
                 unit: 'мл',
                 rating: 4.8,

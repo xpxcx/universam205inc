@@ -1,8 +1,42 @@
 .header {
     border-bottom: 1px solid #EAEAEA;
-    align-items: center;
     display: flex;
-    justify-content: space-between;
+    position: relative;
+    .favorite{
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      opacity: 0.5;
+      right: 95px;
+      top: 33px;
+      &:hover {
+        opacity: 1;
+        cursor: pointer;
+      }
+    }
+    .favoriteCartEmpty {
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      opacity: 0.5;
+      right: 135px;
+      top: 33px;
+      &:hover {
+        opacity: 1;
+        cursor: pointer;
+      }
+    }
+
+    .profile {
+      position: absolute;
+      right: 139px;
+      top: 33px;
+    }
+    .profileCartEmpty {
+      position: absolute;
+      right: 179px;
+      top: 33px;
+    }
     .linkHome {
       text-decoration: none;
     }
@@ -75,6 +109,7 @@
           opacity: 1;
         }
     }
+    
     .totalPrice{
       margin-right: 5px;
       color: #ffff;

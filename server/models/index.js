@@ -18,7 +18,8 @@ const Product = sequelize.define('Product', {
     },
     imageUrl: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        field: '"imageUrl"'
     },
     category: {
         type: DataTypes.STRING,
@@ -32,29 +33,19 @@ const Product = sequelize.define('Product', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    rating: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-        defaultValue: 0
-    },
-    reviews: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 0
-    },
-    article: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    brand: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
     inStock: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 0
+        type: DataTypes.STRING(15),
+        allowNull: true,
+        field: '"inStock"'
+    },
+    type: {
+        type: DataTypes.STRING(7),
+        allowNull: true
     }
+}, {
+    timestamps: true,
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
 });
 
 // Модель Cart
@@ -72,25 +63,63 @@ const Cart = sequelize.define('Cart', {
 
 // Модель CartItem (для связи многие-ко-многим между Cart и Product)
 const CartItem = sequelize.define('CartItem', {
-    id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    },
     quantity: {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 1
     }
+}, {
+    tableName: 'CartItems'
+});
+
+// Модель Favorite
+const Favorite = sequelize.define('Favorite', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    userId: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
+}, {
+    tableName: 'Favorites'
+});
+
+// Модель FavoriteItem
+const FavoriteItem = sequelize.define('FavoriteItem', {}, {
+    tableName: 'FavoriteItems'
 });
 
 // Определяем связи
-Cart.belongsToMany(Product, { through: CartItem });
-Product.belongsToMany(Cart, { through: CartItem });
+Cart.belongsToMany(Product, { 
+    through: CartItem,
+    foreignKey: 'CartId',
+    otherKey: 'ProductId'
+});
+Product.belongsToMany(Cart, { 
+    through: CartItem,
+    foreignKey: 'ProductId',
+    otherKey: 'CartId'
+});
+
+Favorite.belongsToMany(Product, {
+    through: FavoriteItem,
+    foreignKey: 'FavoriteId',
+    otherKey: 'ProductId'
+});
+Product.belongsToMany(Favorite, {
+    through: FavoriteItem,
+    foreignKey: 'ProductId',
+    otherKey: 'FavoriteId'
+});
 
 module.exports = {
     sequelize,
     Product,
     Cart,
-    CartItem
+    CartItem,
+    Favorite,
+    FavoriteItem
 };

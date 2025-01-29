@@ -18,18 +18,8 @@ type Drink = BaseItem & {
 };
 export type Item = Food | Drink;
 
-enum Status {
-    LOADING = 'loading',
-    SUCCESS = 'success',
-    ERROR = 'error'
-};
-interface ItemSliceState {
-   items: Item[],
-   status: Status,
-}
-type FetchItemsArgs = {
-    categoryID: number,
-}
+
+
 interface CartResponse {
     Products: {
         id: number;
@@ -48,6 +38,18 @@ interface CartResponse {
     totalCount: number,
 }
 
+interface FavoriteResponse {
+    Products: {
+        id: number;
+        title: string;
+        imageUrl: string;
+        price: number;
+        size: number,
+        unit: number,
+    }[];
+    totalCount: number,
+}
+
 interface AddCart {
     productId: number,
     quantity: number,
@@ -55,15 +57,19 @@ interface AddCart {
 export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001/api'}),
-    tagTypes: ['Product', 'Cart'],
+    tagTypes: ['Product', 'Cart', 'Favorites'],
     endpoints: (builder) => ({
-        getProducts: builder.query<BaseItem[], number> ({
-            query: (categoryID) => ({
+        getProducts: builder.query<BaseItem[], { categoryID: number, search?: string}> ({
+            query: ({ categoryID, search }) => ({
                 url: '/products',
-                params: categoryID > 0 ? {category: categoryID} : {}
+                params: {
+                ...(categoryID > 0 ? {category: categoryID} : {}),
+                ...(search ? { search } : {})
+                }
             }),
             providesTags: ['Product']
         }),
+
         getCart: builder.query<CartResponse, number>({
             query: () => ({
                 url: '/cart',
@@ -73,10 +79,10 @@ export const apiSlice = createApi({
             transformResponse: (response: CartResponse) => ({
                 ...response,
                 totalPrice: response.Products?.reduce(
-                    (sum, item) => sum + (item.CartItem.quantity*item.price), 0 || 0
+                    (sum, item) => sum + (item.CartItem.quantity*item.price), 0 
                 ),
                 totalCount: response.Products?.reduce(
-                    (sum, item) => sum + item.CartItem.quantity, 0 || 0
+                    (sum, item) => sum + item.CartItem.quantity, 0 
                 )
             })
 
@@ -125,6 +131,47 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['Cart']
         }),
+        getFavorite: builder.query<FavoriteResponse, void> ({
+            query: () => ({
+                url: '/favorites',
+                method: 'GET',  
+                headers: {
+                    'user-id': '1'
+                }
+            }),
+            providesTags: ['Favorites'],
+        }),
+        addOnFavorite: builder.mutation<FavoriteResponse, { productId: number }> ({
+            query: (body) => ({
+                url: '/favorites/add',
+                body,
+                method: 'POST',
+                headers: {
+                    'user-id': '1'
+                }
+            }),
+            invalidatesTags: ['Favorites']
+        }),
+        removeAllFavorite: builder.mutation<{ message: string }, void> ({
+            query: () => ({
+                url: '/favorites/clear',
+                method: 'DELETE',
+                headers: {
+                    'user-id': '1'
+                }
+            }),
+            invalidatesTags: ['Favorites']
+        }),
+        removeFromFavorite: builder.mutation<{ message: string }, number > ({
+            query: (productId) => ({
+                url: `/favorites/remove/${productId}`,
+                method: 'DELETE',
+                headers: {
+                    'user-id': '1'
+                }
+            }),
+            invalidatesTags: ['Favorites']
+        }),
     })
 });
 
@@ -135,4 +182,8 @@ export const {
     useRemoveFromCartMutation,
     useRemoveAllCartMutation,
     useUpdateCountProductMutation,
+    useGetFavoriteQuery,
+    useAddOnFavoriteMutation,
+    useRemoveAllFavoriteMutation,
+    useRemoveFromFavoriteMutation,
 } = apiSlice;

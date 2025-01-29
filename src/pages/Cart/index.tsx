@@ -49,7 +49,7 @@ export const Cart = () => {
                     <p className={styles.count}>{obj.CartItem.quantity}</p>
                     <button className={styles.minus} onClick={() => onClickMinus(obj.id, obj.CartItem.quantity)} disabled={obj.CartItem.quantity === 1}>-</button>
                 </div>
-                <p className={styles.totalPrice}>{Math.round(cartItem.totalPrice)} ₽</p>
+                <p className={styles.totalPrice}>{Math.round(obj.price * obj.CartItem.quantity)} ₽</p>
                 <img className={styles.trash} src='/img/trash.svg' width={17} height={17} onClick={() => onClickDelelte(obj.id)}/>
             </div>
                 
