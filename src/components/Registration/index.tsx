@@ -1,12 +1,14 @@
 import React from 'react';
 import styles from './styles.module.scss';
 import { useRegistrMutation } from '../../redux/userSlice';
+import { useNavigate } from 'react-router';
 export const Registration = () => {
     const [registrData, setRegistrData] = React.useState({
         login: '',
         password: '',
         room: ''
     });
+    const navigate = useNavigate();
     const [ registr ] = useRegistrMutation();
     const onInputData = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value} = event.target;
@@ -16,10 +18,17 @@ export const Registration = () => {
         }));
     }
 
-    console.log(registrData);
-    const onClickRegistr = () => {
-        registr(registrData);
-    }
+    const onClickRegistr = async() => {
+        try {
+        const result = await registr(registrData).unwrap();
+        localStorage.setItem('token', result.token);
+        navigate('/user');
+        console.log('Успешная Регистрация');
+        }catch(error) {
+            console.log(error);
+        }
+    };
+    
     return (
         <div className={styles.auhorization}>
             <div className={styles.auhorizationBlock}>
