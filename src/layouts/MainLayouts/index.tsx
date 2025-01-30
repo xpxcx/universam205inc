@@ -1,13 +1,13 @@
 import { Outlet } from "react-router";
 import { Header } from "../../components/Header/index";
-import { Futer } from "../../components/Futer";
+import { Footer } from "../../components/Footer";
 import styles from './styles.module.scss';
 export const MainLayout: React.FC = () => {
     return (
         <div className={styles.wrapper}>
             <Header/>
             <Outlet/>
-            <Futer/>
+            <Footer/>
         </div>
     );
 

@@ -1,6 +1,28 @@
 const sequelize = require('../config/database');
 const { DataTypes } = require('sequelize');
 
+// Модель User
+const User = sequelize.define('User', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    login: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+    },
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    room: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
+});
+
 // Модель Product
 const Product = sequelize.define('Product', {
     id: {
@@ -117,6 +139,7 @@ Product.belongsToMany(Favorite, {
 
 module.exports = {
     sequelize,
+    User,
     Product,
     Cart,
     CartItem,

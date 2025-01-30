@@ -1,6 +1,6 @@
 import styles from './styles.module.scss';
 
-export const Futer = () => {
+export const Footer = () => {
     return (
         <div className={styles.futer}>
             <p className={styles.p}>Связаться С Нами:</p>

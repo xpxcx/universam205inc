@@ -14,11 +14,13 @@ const productsRouter = require('./routes/products');
 const categoriesRouter = require('./routes/categories');
 const cartRouter = require('./routes/cart');
 const favoritesRouter = require('./routes/favorites');
+const usersRouter = require('./routes/users');
 
 app.use('/api/products', productsRouter);
 app.use('/api/categories', categoriesRouter);
 app.use('/api/cart', cartRouter);
 app.use('/api/favorites', favoritesRouter);
+app.use('/api/users', usersRouter);
 
 // Sync database
 sequelize.sync({ force: false }).then(() => {
