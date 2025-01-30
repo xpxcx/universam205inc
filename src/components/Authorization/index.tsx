@@ -1,36 +1,32 @@
 import { Link, useNavigate } from 'react-router';
-import styles from './styles.module.scss';
 import React from 'react';
+import { useForm } from 'react-hook-form';
+
+import styles from './styles.module.scss';
 import { useAutorizeMutation } from '../../redux/userSlice';
+type FormInput = {
+    login: string,
+    password: string
+};
+
 export const Authorization = () => {
-    const [signInData, setSignInData] = React.useState({
-        login: '',
-        password: ''
-    });
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = React.useState('');
-    React.useEffect(() => {
-        setSignInData({ login: '', password: '' });
-        setErrorMessage('');
-    }, []);
-
+    const { 
+        register, 
+        
+        handleSubmit, 
+        reset,
+        } = useForm<FormInput>();
     const [ login ] = useAutorizeMutation();
-    const onInputData = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-
-
-        setSignInData(prev => ({
-            ...prev,
-            [name]: value
-        }))
-    }
     
-    const onClickSignIn = async () => {
+    const onSubmit = async (data: FormInput) => {
         try {
-            const result = await login(signInData).unwrap();
+            const result = await login(data).unwrap();
             localStorage.setItem('token', result.token);
             navigate('/user');
-            console.log('Успешная Авторизация!');
+            alert('Успешная авторизация');
+            reset();
         }catch(error: any) {
             if(error.data?.message === 'Пользователь не найден') {
                 setErrorMessage('Пользователь не найден');
@@ -44,13 +40,33 @@ export const Authorization = () => {
         }   
     }
     return (
+        <form onSubmit={handleSubmit(onSubmit)}>
+            
         <div className={styles.auhorization}>
             <div className={styles.auhorizationBlock}>
-                <p className={styles.title}>Авторизация</p>
-                <div className={styles.dataBlock}>
-                    <input name='login' className={styles.inputLogin} type="text" placeholder='Логин' value={signInData.login} onChange={onInputData} onFocus={() => setErrorMessage('')}/>
-                    <input name='password' className={styles.inputPassword} type="password" placeholder='Пароль' value={signInData.password} onChange={onInputData} onFocus={() => setErrorMessage('')}/>
+            <p className={styles.title}>Авторизация</p>
+
+            <div className={styles.dataBlock}>
+                    <input 
+                    {...register('login', {
+                        required: 'Логин обязателен'
+                    })}
+                    className={styles.inputLogin} 
+                    type="text" 
+                    placeholder='Логин' 
+                    onFocus={() => setErrorMessage('')}
+                    />
+                    <input 
+                    {...register('password', { 
+                        required: 'Пароль обязателен'
+                    }
+                    )}
+                    className={styles.inputPassword} 
+                    type="password" 
+                    placeholder='Пароль' 
+                    onFocus={() => setErrorMessage('')}/>
                 </div>
+                
                 {errorMessage === 'Пользователь не найден' &&
                     (<div className={styles.registration}>
                         <p className={styles.questions}>Похоже, Вы ещё не зарегистрированы.</p>
@@ -74,9 +90,11 @@ export const Authorization = () => {
                     </div>
                 }
                 
-                <button className={styles.signInBtn} onClick={() => onClickSignIn()}>Войти</button>
+                <button type='submit' className={styles.signInBtn}>Войти</button>
                 
             </div>
         </div>
+        </form>
+
     );
 };
