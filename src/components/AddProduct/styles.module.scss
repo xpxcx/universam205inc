@@ -1,0 +1,38 @@
+.containerAdmin {
+    display: flex;
+    height: 350px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.inputBlock {
+    display: grid;
+    grid-template-columns: repeat(8 1fr);
+    gap: 5px;
+    width: 350px;
+    
+    padding: 5px;
+    input {
+        border-radius: 5px;
+        border: 1px solid;
+        border-color: rgb(191, 187, 187);
+        height: 25px;
+    }
+}
+
+.addBtn {
+    border-radius: 9px;
+    border: 0;
+    background-color: rgb(98, 189, 98);
+    padding: 7px;
+    margin-top: 15px;
+    &:hover {
+        cursor: pointer;
+        background-color: darken(rgb(98, 189, 98), 15%);
+
+    }
+}
+
+
+
+

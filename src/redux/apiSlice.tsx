@@ -28,7 +28,7 @@ interface CartResponse {
         price: number;
         size: number,
         unit: string,
-        quantity: number,
+        inStock: number,
         CartItem: {
             quantity: number;
         }
@@ -46,6 +46,7 @@ interface FavoriteResponse {
         price: number;
         size: number,
         unit: number,
+        
     }[];
     totalCount: number,
 }
@@ -56,7 +57,15 @@ interface AddCart {
 }
 export const apiSlice = createApi({
     reducerPath: 'api',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001/api'}),
+    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001/api',
+        prepareHeaders: (headers) => {
+            const token = localStorage.getItem('token');
+            if(token) {
+                headers.set('Authorization', `Bearer ${token}`)
+            }
+            return headers;
+        }
+    }),
     tagTypes: ['Product', 'Cart', 'Favorites'],
     endpoints: (builder) => ({
         getProducts: builder.query<BaseItem[], { categoryID: number, search?: string}> ({
@@ -70,10 +79,9 @@ export const apiSlice = createApi({
             providesTags: ['Product']
         }),
 
-        getCart: builder.query<CartResponse, number>({
+        getCart: builder.query<CartResponse, void>({
             query: () => ({
                 url: '/cart',
-                headers: {'user-id': '1'},
             }),
             providesTags: ['Cart'],
             transformResponse: (response: CartResponse) => ({
@@ -93,10 +101,6 @@ export const apiSlice = createApi({
                 url: '/cart/add',
                 method: 'POST',
                 body,
-                headers: {
-                    'user-id': '1'
-                }
-
             }),
                 invalidatesTags: ['Cart']
         }),
@@ -104,9 +108,7 @@ export const apiSlice = createApi({
             query: (productId) => ({
                 url: `/cart/remove/${productId}`,
                 method: 'DELETE',
-                headers: {
-                    'user-id': '1'
-                }
+                
             }),
             invalidatesTags: ['Cart']
         }),
@@ -114,9 +116,7 @@ export const apiSlice = createApi({
             query: () => ({
                 url: '/cart/clear',
                 method: 'DELETE',
-                headers: {
-                    'user-id': '1'
-                }
+               
             }),
             invalidatesTags: ['Cart']
         }),
@@ -125,9 +125,7 @@ export const apiSlice = createApi({
                 url: `/cart/update/${productId}`,
                 method: 'PUT',
                 body: { quantity },
-                headers: {
-                    'user-id': '1'
-                }
+                
             }),
             invalidatesTags: ['Cart']
         }),
@@ -135,9 +133,6 @@ export const apiSlice = createApi({
             query: () => ({
                 url: '/favorites',
                 method: 'GET',  
-                headers: {
-                    'user-id': '1'
-                }
             }),
             providesTags: ['Favorites'],
         }),
@@ -146,9 +141,7 @@ export const apiSlice = createApi({
                 url: '/favorites/add',
                 body,
                 method: 'POST',
-                headers: {
-                    'user-id': '1'
-                }
+                
             }),
             invalidatesTags: ['Favorites']
         }),
@@ -156,9 +149,7 @@ export const apiSlice = createApi({
             query: () => ({
                 url: '/favorites/clear',
                 method: 'DELETE',
-                headers: {
-                    'user-id': '1'
-                }
+                
             }),
             invalidatesTags: ['Favorites']
         }),
@@ -166,9 +157,7 @@ export const apiSlice = createApi({
             query: (productId) => ({
                 url: `/favorites/remove/${productId}`,
                 method: 'DELETE',
-                headers: {
-                    'user-id': '1'
-                }
+               
             }),
             invalidatesTags: ['Favorites']
         }),

@@ -1,16 +1,23 @@
+import React from 'react';
+import { ModalOrder } from '../../components/ModalOrder';
+import { Order } from '../../components/Order/index';
 import { useGetCartQuery, useRemoveAllCartMutation, useRemoveFromCartMutation, useUpdateCountProductMutation } from '../../redux/apiSlice';
 import { CartEmpty } from './CartEmpty';
 import styles from './styles.module.scss';
-
+import { useCreateOrderMutation } from '../../redux/orderApiSlice';
+import { OrderResponse } from '../../redux/orderApiSlice';
 export const Cart = () => {
-    const { data: cartItem } = useGetCartQuery(1);
+    const [orderModalOpened, setOrderModalOpened] = React.useState(false);
+    const [orderResponse, setOrderResponse] = React.useState<OrderResponse | null>(null);
+    const { data: cartItem } = useGetCartQuery();
     const [removeFromCart] = useRemoveFromCartMutation();
     const onClickDelelte = (productId:number) => (
         removeFromCart(productId)
     );
     const [removeAllCart] = useRemoveAllCartMutation();
     const [updateCountProduct] = useUpdateCountProductMutation();
-    
+    const [createOrder] = useCreateOrderMutation();
+
     const onClickPlus = async (productId: number, quantity: number) => {
         await updateCountProduct({
             productId,
@@ -23,6 +30,12 @@ export const Cart = () => {
             quantity: quantity - 1,
         })
     }
+    const onClickOrder = async() => {
+        const response = await createOrder().unwrap();
+        setOrderResponse(response);
+        setOrderModalOpened(true);
+        
+    }   
     return (
         cartItem?.totalCount === 0 ?
         <CartEmpty/> 
@@ -45,7 +58,7 @@ export const Cart = () => {
                 <p className={styles.sizeItem}>{obj.size}{obj.unit}</p>
 
                 <div className={styles.countItem}>
-                    <button className={styles.plus} onClick={() => onClickPlus(obj.id, obj.CartItem.quantity)}>+</button>
+                    <button className={styles.plus} onClick={() => onClickPlus(obj.id, obj.CartItem.quantity)} disabled={obj.inStock <= obj.CartItem?.quantity}>+</button>
                     <p className={styles.count}>{obj.CartItem.quantity}</p>
                     <button className={styles.minus} onClick={() => onClickMinus(obj.id, obj.CartItem.quantity)} disabled={obj.CartItem.quantity === 1}>-</button>
                 </div>
@@ -56,7 +69,13 @@ export const Cart = () => {
                 
             ))}
             <p>Общая сумма: {Math.round(cartItem?.totalPrice ?? 0)}</p>
-            <button className={styles.buttonOrder}>Оформить заказ</button>
+            <button className={styles.buttonOrder} onClick={onClickOrder}>Оформить заказ</button>
+            {orderModalOpened && <ModalOrder
+            onClose={() => setOrderModalOpened(false)}>
+                <Order
+                orderResponse={orderResponse}
+                />
+            </ModalOrder>}
         </div>)
         
     );

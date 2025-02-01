@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router";
-import { useEditUserRoomMutation, useGetCurrentUserQuery } from "../../redux/userSlice";
+import { useEditUserRoomMutation, useGetCurrentUserQuery } from "../../redux/userApiSlice";
 import styles from './styles.module.scss';
 export const User = () => {
     const { data: user } = useGetCurrentUserQuery();
@@ -25,6 +25,7 @@ export const User = () => {
     const onClickExit = () => {
         localStorage.removeItem('token');
         navigate('/authorization')
+        window.location.reload();
     }
     return (
         <div className={styles.container}>

@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './styles.module.scss';
-import { useRegistrMutation } from '../../redux/userSlice';
+import { useRegistrMutation } from '../../redux/userApiSlice';
 import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 type FormInput = {
@@ -30,13 +30,13 @@ export const Registration = () => {
             errors
         },
         reset,
-        clearErrors
     } = useForm<FormInput>();
     const onClickRegistr = async(data: FormInput) => {
         try {
         const result = await registr(data).unwrap();
         localStorage.setItem('token', result.token);
         navigate('/user');
+        window.location.reload();
         reset();
         }catch(error) {
             console.log(error);

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User } = require('../models');
+const { User, Cart, Favorite } = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -24,6 +24,10 @@ router.post('/register', async (req, res) => {
     try {
         const { login, password, room } = req.body;
 
+        if (!login || !password) {
+            return res.status(400).json({ message: 'Логин и пароль обязательны' });
+        }
+
         // Проверяем, существует ли пользователь
         const existingUser = await User.findOne({ where: { login } });
         if (existingUser) {
@@ -37,12 +41,27 @@ router.post('/register', async (req, res) => {
         const user = await User.create({
             login,
             password: hashedPassword,
-            room
+            room: room || null,
+            role: 'user' // По умолчанию роль user
+        });
+
+        // Создаем корзину для пользователя
+        await Cart.create({
+            userId: user.id
+        });
+
+        // Создаем список избранного для пользователя
+        await Favorite.create({
+            userId: user.id
         });
 
         // Создаем JWT токен
         const token = jwt.sign(
-            { id: user.id, login: user.login },
+            { 
+                id: user.id.toString(), 
+                login: user.login,
+                role: user.role 
+            },
             process.env.JWT_SECRET || 'your-secret-key',
             { expiresIn: '24h' }
         );
@@ -52,7 +71,8 @@ router.post('/register', async (req, res) => {
             user: {
                 id: user.id,
                 login: user.login,
-                room: user.room
+                room: user.room,
+                role: user.role
             }
         });
     } catch (error) {
@@ -63,36 +83,53 @@ router.post('/register', async (req, res) => {
 // Авторизация
 router.post('/login', async (req, res) => {
     try {
+        console.log('Login attempt:', req.body);
         const { login, password } = req.body;
 
         // Ищем пользователя
         const user = await User.findOne({ where: { login } });
+        console.log('Found user:', user ? { ...user.toJSON(), password: '[HIDDEN]' } : null);
+        
         if (!user) {
             return res.status(400).json({ message: 'Пользователь не найден' });
         }
 
         // Проверяем пароль
         const isValidPassword = await bcrypt.compare(password, user.password);
+        console.log('Password valid:', isValidPassword);
+        
         if (!isValidPassword) {
             return res.status(400).json({ message: 'Неверный пароль' });
         }
 
         // Создаем JWT токен
+        const tokenPayload = { 
+            id: user.id.toString(), 
+            login: user.login,
+            role: user.role 
+        };
+        console.log('Token payload:', tokenPayload);
+        
         const token = jwt.sign(
-            { id: user.id, login: user.login },
+            tokenPayload,
             process.env.JWT_SECRET || 'your-secret-key',
             { expiresIn: '24h' }
         );
 
-        res.json({
+        const response = {
             token,
             user: {
                 id: user.id,
                 login: user.login,
-                room: user.room
+                room: user.room,
+                role: user.role
             }
-        });
+        };
+        console.log('Response:', { ...response, token: token.substring(0, 20) + '...' });
+
+        res.json(response);
     } catch (error) {
+        console.error('Login error:', error);
         res.status(500).json({ message: error.message });
     }
 });

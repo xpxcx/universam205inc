@@ -5,7 +5,7 @@ export const Profile = () => {
 
     return (
         <div>
-            {localStorage.getItem('token') !== null  ? <User/> : <Authorization/>}
+            {localStorage.getItem('token') === null  ? <Authorization/> : <User/>}
         </div>
     );
 }

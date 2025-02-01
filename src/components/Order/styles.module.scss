@@ -1,0 +1,137 @@
+.order {
+    justify-self: center;
+    width: 95%;
+    border-radius: 15px;
+    padding: 7px;
+
+}
+.container {
+    height: 625px;
+    
+}
+.infoForClient {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.infoText {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 7px;
+    h2 {
+        margin: 0;
+        margin-top: 15px;
+        margin-bottom: 5px;
+    }
+    p {
+        margin: 0;
+    }
+}
+.connection {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 7px;
+}
+
+.pay {
+    p {
+        margin: 0;
+        margin-bottom: 5px;
+    }
+}
+.pay {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.delivery {
+    justify-self: flex-start;
+    .question {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 5px;
+        h2 {
+            font-size: 15px;
+            margin-bottom: 0;
+        }
+        p {
+            margin-left: 5px;
+            margin-bottom: 0;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+        .questionRoom {
+            margin: 0;
+        }
+        
+    }
+    .question2 {
+        margin: 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        h2 {
+            margin: 0;
+            font-size: 15px;
+        }
+        p {
+            margin: 0;
+            margin-left: 5px;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+    .activeP {
+        border-radius: 5px;
+        padding: 3px;
+        background-color: rgb(98, 189, 98);
+    }
+}
+.orderBlock {
+    margin: 0;
+    padding: 11px;
+    h2{
+        margin: 0;
+        margin-bottom: 5px;
+    }
+    .orderTotalPrice {
+        display: flex;
+        justify-self: flex-end;
+        margin-right: 15px;
+    }
+}
+.items {
+    background-color: rgb(235, 235, 235);
+    border-radius: 15px;
+    width: 97%;
+    display: flex;
+    flex-direction: row;
+    // justify-content: center;
+    align-items: center;
+    padding: 11px;
+    margin-bottom: 11px;
+    .title {
+        display: flex;
+        font-size: 15px;    
+        justify-self: flex-start;
+        max-width: 405px;
+    }
+    .a {
+        display: flex;
+        flex-direction: row;
+        margin-left: auto;
+        margin-right: 5px;
+        min-width: 65px;
+        .quantity {
+            margin-left: 0;
+            margin-right: 7px;
+        }
+    }
+}

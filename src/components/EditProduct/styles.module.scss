@@ -1,0 +1,190 @@
+
+
+.cart{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 15px;
+  }
+  .item {
+    display: flex;
+    position: relative;
+    width: 67%;
+    min-width: 790px;
+    border: 1px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.191);
+    margin-left: 10px;
+    border-radius: 19px;
+    padding: 5px;
+    margin-bottom: 15px;
+    margin-right: 25px;
+    margin-top: 15px;
+    .sizeItem  {
+      position: absolute;
+      left: 531px;
+      top: 29px;
+      // display: flex;
+      // right: 19px;
+      // bottom: 95px;
+      opacity: 0.5;
+      margin-left: 15px;
+    }
+    .title{
+      font-size: 14px;
+      margin-top: 35px;
+      margin-left: 0;
+      margin-bottom: 0;
+      width: 415px;
+    }
+    .productInfo {
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+    }
+    .pricetext {
+      justify-self: start;
+      opacity: 0.5;
+      margin: 0;
+    }
+    .price{
+      font-size: 17px;
+      margin: 0;
+    }
+  
+    .itemimg {
+      height: 150px; 
+      display: flex;
+      margin-left: 5px;
+      width: 135px;
+      margin-right: 0;
+      justify-content: center;
+      align-items: center;
+      img {
+        max-width: 80%;
+        max-height: 100%;
+        object-fit: contain; 
+      }
+    }
+    .trashEdit {
+      display: block;
+      margin-left: auto;
+      margin-top: 15px;
+      margin-right: 15px;
+      justify-content: center;
+      align-items: center;
+      
+    }
+    .trash {
+      width: 19px;
+      height: 19px;
+      opacity: 0.5;
+      transition: 0.2s ease-in-out;
+      &:hover {
+        opacity: 1;
+        cursor: pointer;
+      }
+    }
+    .editBtn {
+      width: 19px;
+      height: 19px;
+      margin-right: 7px;
+      opacity: 0.5;
+      transition: 0.2s ease-in-out;
+      &:hover {
+        cursor: pointer;
+        opacity: 1;
+      }
+    }
+    .totalPrice {
+      position: absolute;
+      right: 15px;
+      top: 55px;
+      margin-left: auto;
+      margin-top: 15px;
+    }
+    .countItem {
+      display: flex;
+      position: absolute;
+      flex-direction: column;
+      top: 33px;
+      right: 155px;
+      justify-content: center;
+      align-items: center;
+    }
+      cursor: pointer;
+      .plus, .minus{
+      margin: 0;
+      opacity: 0.5;
+      transition: 0.2s ease-in-out;
+      border: 0;
+      background-color: #ffffff;
+      &:not(:disabled):hover {
+        opacity: 1;
+        cursor: pointer;
+      }
+      &:disabled {
+        cursor: default;
+      }
+    }
+    .count {
+      margin: 0;
+      margin-top: 15px;
+      margin-bottom: 15px;  
+    }
+    
+  }
+  .buttonOrder {
+    border: 0;
+    border-radius: 15px;
+    padding: 9px;
+    background-color: rgb(98, 189, 98);
+    transition: 0.2s ease-in-out;
+    &:hover {
+      background-color:  darken(rgb(98, 189, 98), 15%);
+    }
+  }
+  
+  .clearCartButton {
+    border: 0;
+    background-color: #ffffff;
+    align-self: flex-end;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .clearCart{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 45px;
+      padding: 15px;
+      
+      .title{
+        margin: 0;
+        margin-top: 25px;
+      }
+  
+      .descr{
+        margin: 0;
+      }
+      button {
+        width: 170px;
+        height: 37px;
+        margin-top: 25px;
+        margin-bottom: 45px;
+        border: 0;
+        border-radius: 15px;
+        background-color: rgb(98, 189, 98);
+        padding: 5px;
+        padding-left: 9px;
+        padding-right: 9px;
+        color: #ffffff;
+        transition: 0.2s ease-in-out;
+        &:hover{
+          background-color: darken(rgb(98, 189, 98), 15%);
+        }
+      }
+    }
+  

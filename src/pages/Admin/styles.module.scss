@@ -1,0 +1,26 @@
+.adminPanel {
+    height: 255px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.containerAdminPanel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-left: 15px;
+
+    h1{
+        margin: 7px;
+    }
+}
+.config {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    p {
+        margin: 7px;
+    }
+}

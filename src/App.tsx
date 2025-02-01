@@ -8,6 +8,11 @@ import { User } from './components/User/index.tsx'
 import { Authorization } from './components/Authorization/index.tsx';
 import { Registration } from './components/Registration/index.tsx';
 import { Profile } from './pages/Profile/index.tsx';
+import { Admin } from './pages/Admin/index.tsx';
+
+import { AddProduct } from './components/AddProduct/index.tsx'; 
+import { EditProduct } from './components/EditProduct/index.tsx';
+import { AdminEditColumnProduct } from './components/AdminEditColumnProduct/index.tsx';
 function App() {
   return (
     <div className="wrapper">
@@ -20,6 +25,11 @@ function App() {
           <Route path='/registration' element={<Registration/>}/>
           <Route path='/profile' element={<Profile/>}/>
           <Route path='/user' element={<User/>}/>
+          <Route path='/admin' element={<Admin/>}/>
+          <Route path='/adminAddProduct' element={<AddProduct/>}/>
+          <Route path='/adminEditProduct' element={<EditProduct/>}/>
+          <Route path='/editColumn' element={<AdminEditColumnProduct/>}/>
+
           </Route>
       </Routes>
     </div>

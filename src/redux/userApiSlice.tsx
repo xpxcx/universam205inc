@@ -4,6 +4,7 @@ interface UserData {
     id: number,
     login: string,
     room: string,
+    role: string
 }
 interface AuthorazeResponse {
     token: string,
@@ -25,7 +26,7 @@ export interface SignInInputData {
     password: string,
 }
 
-export const userSlice = createApi({
+export const userApiSlice = createApi({
     reducerPath: 'userApi',
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001/api/users',
         prepareHeaders: (headers) => {
@@ -88,4 +89,4 @@ export const {
     useAutorizeMutation,
     useGetCurrentUserQuery,
     useEditUserRoomMutation,
-} = userSlice;
+} = userApiSlice;

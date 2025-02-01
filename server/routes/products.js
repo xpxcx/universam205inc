@@ -70,7 +70,11 @@ router.post('/', async (req, res) => {
 // Обновить товар
 router.put('/:id', async (req, res) => {
     try {
-        const { title, price, imageUrl, category, size, unit, rating, reviews, article, brand, inStock } = req.body;
+        const { title, price, imageUrl, category, size, unit, type, inStock } = req.body;
+        console.log('Received data:', req.body);
+        console.log('Category value:', category);
+        console.log('Mapped category:', categories[category]);
+        
         const product = await Product.findByPk(req.params.id);
         
         if (!product) {
@@ -84,15 +88,13 @@ router.put('/:id', async (req, res) => {
             category: categories[category],
             size,
             unit,
-            rating,
-            reviews,
-            article,
-            brand,
+            type,
             inStock
         });
 
         res.json(product);
     } catch (error) {
+        console.error('Error:', error);
         res.status(400).json({ message: error.message });
     }
 });

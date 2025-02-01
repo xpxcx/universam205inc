@@ -8,11 +8,10 @@ import { store } from './redux/store.ts'
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
-  <StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </StrictMode>
+    <StrictMode>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </StrictMode>
   </BrowserRouter>
-
 )
