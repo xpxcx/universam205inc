@@ -8,7 +8,7 @@ import { useCreateOrderMutation } from '../../redux/orderApiSlice';
 import { OrderResponse } from '../../redux/orderApiSlice';
 import { Link } from 'react-router';
 export const Cart = () => {
-    const [orderModalOpened, setOrderModalOpened] = React.useState(false);
+    const [isOrderModalOpened, setIsOrderModalOpened] = React.useState(false);
     const [orderResponse, setOrderResponse] = React.useState<OrderResponse | null>(null);
     const { data: cartItem } = useGetCartQuery();
     const [removeFromCart] = useRemoveFromCartMutation();
@@ -34,7 +34,7 @@ export const Cart = () => {
     const onClickOrder = async() => {
         const response = await createOrder().unwrap();
         setOrderResponse(response);
-        setOrderModalOpened(true);
+        setIsOrderModalOpened(true);
         
     }   
     if (!localStorage.getItem('token')) {
@@ -46,7 +46,7 @@ export const Cart = () => {
         </div>
     }
     const onClickClose = () => {
-        setOrderModalOpened(false);
+        setIsOrderModalOpened(false);
         refetchCart();
     } 
     return (
@@ -84,7 +84,7 @@ export const Cart = () => {
             ))}
             <p>Общая сумма: {Math.round(cartItem?.totalPrice ?? 0)}</p>
             <button className={styles.buttonOrder} onClick={onClickOrder}>Оформить заказ</button>
-            {orderModalOpened && <Modal
+            {isOrderModalOpened && <Modal
             onClose={() => onClickClose()}
             stylesModal={'order'}>
                 <Order

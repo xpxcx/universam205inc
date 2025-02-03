@@ -22,7 +22,14 @@
             createdAt: string;
             updatedAt: string;
         }
-
+    interface EditRoom {
+        message: string,
+        order: {
+            id: number,
+            deliveryRoom: string,
+            status: string
+        }
+    }
     export const orderApiSlice = createApi({
         reducerPath: 'orderApi',
         baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001/api',
@@ -44,9 +51,27 @@
                 }),
                 invalidatesTags: ['Order', 'Cart']
             }),
-        })
+            orderEditRoom: builder.mutation<EditRoom, { room: string, orderId: number}> ({
+                query: ({room, orderId}) => ({
+                    url: `/orders/${orderId}/delivery-room`,
+                    method: 'PATCH',
+                    body: {
+                        room
+                    }
+                }),
+                invalidatesTags: ['Order', 'Cart']
+            }),
+            getOrder: builder.query<OrderResponse, { id: number | undefined}> ({
+                query: ({ id }) => `/orders/${id}`,
+                providesTags: ['Order']
+            })
+        }),
+        
+        
     })
 
     export const {
         useCreateOrderMutation,
+        useOrderEditRoomMutation,
+        useGetOrderQuery,
     } = orderApiSlice;

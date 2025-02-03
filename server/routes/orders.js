@@ -141,6 +141,51 @@ router.get('/:id', authMiddleware, async (req, res) => {
     }
 });
 
+// Изменение комнаты доставки заказа
+router.patch('/:orderId/delivery-room', authMiddleware, async (req, res) => {
+    try {
+        const { orderId } = req.params;
+        const { room } = req.body;
+        const userId = req.user.id;
+
+        // Находим заказ
+        const order = await Order.findOne({
+            where: {
+                id: orderId,
+                userId // Проверяем, что заказ принадлежит пользователю
+            }
+        });
+
+        if (!order) {
+            return res.status(404).json({ message: 'Заказ не найден' });
+        }
+
+        // Проверяем статус заказа (опционально)
+        if (order.status === 'delivered') {
+            return res.status(400).json({ message: 'Нельзя изменить комнату доставки для доставленного заказа' });
+        }
+
+        // Обновляем комнату доставки
+        await order.update({
+            deliveryRoom: room
+        });
+
+        // Возвращаем обновленный заказ
+        res.json({
+            message: 'Комната доставки успешно обновлена',
+            order: {
+                id: order.id,
+                deliveryRoom: order.deliveryRoom,
+                status: order.status
+            }
+        });
+
+    } catch (error) {
+        console.error('Error updating delivery room:', error);
+        res.status(500).json({ message: error.message });
+    }
+});
+
 // Получение всех заказов (для админов)
 router.get('/admin/all', authMiddleware, async (req, res) => {
     try {
