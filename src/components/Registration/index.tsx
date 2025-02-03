@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './styles.module.scss';
-import { useRegistrMutation } from '../../redux/userApiSlice';
+import { useGetCurrentUserQuery, useRegistrMutation } from '../../redux/userApiSlice';
 import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 type FormInput = {
@@ -31,10 +31,12 @@ export const Registration = () => {
         },
         reset,
     } = useForm<FormInput>();
+    const { refetch: refetchUser } = useGetCurrentUserQuery();
     const onClickRegistr = async(data: FormInput) => {
         try {
         const result = await registr(data).unwrap();
         localStorage.setItem('token', result.token);
+        await refetchUser();
         navigate('/user');
         window.location.reload();
         reset();

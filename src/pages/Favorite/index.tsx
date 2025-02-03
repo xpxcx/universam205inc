@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import { useAddToCartMutation, useGetFavoriteQuery, useRemoveAllFavoriteMutation, useRemoveFromFavoriteMutation } from '../../redux/apiSlice';
 import { FavoriteEmpty } from './FavoriteEmprty';
 import styles from './styles.module.scss';
@@ -16,6 +17,14 @@ export const Favorite = () => {
         })
     };
     const [removeAllFavorite] = useRemoveAllFavoriteMutation();
+    if (!localStorage.getItem('token')) {
+        return <div className={styles.unAuth}>
+            <h3>Похоже, Вы ещё не авторизованы</h3>
+            <Link to='/authorization'>
+            <p>Авторизация</p>
+            </Link>
+        </div>
+    }
     return (
         favoriteItem?.Products?.length === 0 ? 
         <FavoriteEmpty /> 

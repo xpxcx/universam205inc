@@ -38,8 +38,15 @@ export const userApiSlice = createApi({
         }
      }),
     
-    tagTypes: ['SignIn', 'LogIn', 'User'],
+    tagTypes: ['Auth', 'User'],
     endpoints: (builder) => ({
+        logout: builder.mutation<void, void>({
+            queryFn: () => {
+                localStorage.removeItem('token');
+                return { data: undefined };
+            },
+            invalidatesTags: ['Auth']
+        }),
         registr: builder.mutation<AuthorazeResponse, RegistInputData> ({
             query: ({ login, password, room }) => ({
                 url: '/register',
@@ -50,7 +57,10 @@ export const userApiSlice = createApi({
                     room: room
                 }
             }), 
-            invalidatesTags: ['LogIn']
+            onQueryStarted: () => {
+                
+            },
+            invalidatesTags: ['Auth']
         }),
         autorize: builder.mutation<AuthorazeResponse, SignInInputData> ({
             query: ({ login, password }) => ({
@@ -61,14 +71,14 @@ export const userApiSlice = createApi({
                     password: password
                 }
             }),
-            invalidatesTags: ['SignIn']
+            invalidatesTags: ['Auth']
         }),
         getCurrentUser: builder.query<UserData, void> ({
             query: () => ({
                 url: '/me',
                 method: 'GET'
             }),
-            providesTags: ['User']
+            providesTags: ['Auth']
         }),
         editUserRoom: builder.mutation<UserData, {room: string}> ({
             query: ({ room }) => ({
@@ -79,6 +89,13 @@ export const userApiSlice = createApi({
                 }
             }),
             invalidatesTags: ['User']
+        }),
+        signOut: builder.mutation<void, void>({
+            queryFn: () => {
+                localStorage.removeItem('token');
+                return { data: undefined };
+            },
+            invalidatesTags: ['Auth', 'User'],
         })
     })
 });
@@ -86,7 +103,9 @@ export const userApiSlice = createApi({
 
 export const {
     useRegistrMutation,
+    useLogoutMutation,
     useAutorizeMutation,
     useGetCurrentUserQuery,
     useEditUserRoomMutation,
+    useSignOutMutation,
 } = userApiSlice;

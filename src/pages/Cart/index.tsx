@@ -1,11 +1,12 @@
 import React from 'react';
-import { ModalOrder } from '../../components/ModalOrder';
+import { Modal} from '../../components/Modal';
 import { Order } from '../../components/Order/index';
 import { useGetCartQuery, useRemoveAllCartMutation, useRemoveFromCartMutation, useUpdateCountProductMutation } from '../../redux/apiSlice';
 import { CartEmpty } from './CartEmpty';
 import styles from './styles.module.scss';
 import { useCreateOrderMutation } from '../../redux/orderApiSlice';
 import { OrderResponse } from '../../redux/orderApiSlice';
+import { Link } from 'react-router';
 export const Cart = () => {
     const [orderModalOpened, setOrderModalOpened] = React.useState(false);
     const [orderResponse, setOrderResponse] = React.useState<OrderResponse | null>(null);
@@ -17,7 +18,7 @@ export const Cart = () => {
     const [removeAllCart] = useRemoveAllCartMutation();
     const [updateCountProduct] = useUpdateCountProductMutation();
     const [createOrder] = useCreateOrderMutation();
-
+    const { refetch: refetchCart } = useGetCartQuery()
     const onClickPlus = async (productId: number, quantity: number) => {
         await updateCountProduct({
             productId,
@@ -36,8 +37,21 @@ export const Cart = () => {
         setOrderModalOpened(true);
         
     }   
+    if (!localStorage.getItem('token')) {
+        return <div className={styles.unAuth}>
+            <h3>Похоже, Вы ещё не авторизованы</h3>
+            <Link to='/authorization'>
+            <p>Авторизация</p>
+            </Link>
+        </div>
+    }
+    const onClickClose = () => {
+        setOrderModalOpened(false);
+        refetchCart();
+    } 
     return (
-        cartItem?.totalCount === 0 ?
+
+       ( cartItem?.totalCount === 0 || !localStorage.getItem('token')) ?
         <CartEmpty/> 
         :
         (<div className={styles.cart}>
@@ -70,12 +84,13 @@ export const Cart = () => {
             ))}
             <p>Общая сумма: {Math.round(cartItem?.totalPrice ?? 0)}</p>
             <button className={styles.buttonOrder} onClick={onClickOrder}>Оформить заказ</button>
-            {orderModalOpened && <ModalOrder
-            onClose={() => setOrderModalOpened(false)}>
+            {orderModalOpened && <Modal
+            onClose={() => onClickClose()}
+            stylesModal={'order'}>
                 <Order
                 orderResponse={orderResponse}
                 />
-            </ModalOrder>}
+            </Modal>}
         </div>)
         
     );

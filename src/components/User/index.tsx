@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router";
-import { useEditUserRoomMutation, useGetCurrentUserQuery } from "../../redux/userApiSlice";
+import { useEditUserRoomMutation, useGetCurrentUserQuery, useSignOutMutation } from "../../redux/userApiSlice";
 import styles from './styles.module.scss';
 export const User = () => {
     const { data: user } = useGetCurrentUserQuery();
@@ -11,6 +11,8 @@ export const User = () => {
     const onChangeRoom = async (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputRoom(e.target.value);
     } 
+    const [signOut] = useSignOutMutation();
+    const { refetch } = useGetCurrentUserQuery();
     const onClickSaveRoom = async () => {
 
         if(clickEdit) {
@@ -23,9 +25,9 @@ export const User = () => {
     }
 
     const onClickExit = () => {
-        localStorage.removeItem('token');
+        signOut();
+        refetch();
         navigate('/authorization')
-        window.location.reload();
     }
     return (
         <div className={styles.container}>

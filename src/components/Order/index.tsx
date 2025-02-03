@@ -1,4 +1,3 @@
-import { useCreateOrderMutation } from '../../redux/orderApiSlice';
 import styles from './styles.module.scss'
 import { OrderResponse } from '../../redux/orderApiSlice';
 import { useGetCurrentUserQuery } from '../../redux/userApiSlice';
@@ -7,9 +6,14 @@ type Order = {
     orderResponse: OrderResponse | null,
 }
 export const Order: React.FC<Order> = ({ orderResponse }) => {
-    const [delivery, setDelivery] = React.useState(false);
-    const [roomApprove, setRoomAprove] = React.useState(true);
     const { data: currentUser} = useGetCurrentUserQuery();
+    const [isDelivery, setIsDelivery] = React.useState(false);
+    const [isRoomApprove, setIsRoomAprove] = React.useState(true);
+    const [roomDelivery, setRoomDelivery] = React.useState(currentUser?.room)
+    
+    const onChangeRoom = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setRoomDelivery(e.target.value);
+    }
     return (
         <div className={styles.order}>
             <div className={styles.container}>
@@ -32,14 +36,17 @@ export const Order: React.FC<Order> = ({ orderResponse }) => {
                 <div className={styles.delivery}>
                     <div className={styles.question}>
                         <h2>Доставка: </h2>
-                        <p className={delivery ? styles.activeP : ''}onClick={() => setDelivery(true)}>Да</p>
-                        <p className={delivery ? '' : styles.activeP}onClick={() => setDelivery(false)}>Нет</p>
+                        <p className={isDelivery ? styles.activeP : ''}onClick={() => setIsDelivery(true)}>Да</p>
+                        <p className={isDelivery ? '' : styles.activeP}onClick={() => setIsDelivery(false)}>Нет</p>
                     </div>
-                    {delivery ? 
+                    {isDelivery ? 
                     <div className={styles.question2}>
-                        <h2>Ваша Комната {currentUser?.room}?</h2> 
-                        <p className={roomApprove ? styles.activeP : ''}onClick={() => setRoomAprove(true)}>Да</p>
-                        <p className={roomApprove ? '' : styles.activeP}onClick={() => setRoomAprove(false)}>Нет</p>
+
+                        <h2>Ваша Комната</h2> 
+                        {isRoomApprove ? <h2 className={styles.room}> {currentUser?.room}?</h2> : <input value={roomDelivery} onChange={(e) => onChangeRoom(e)}></input>}
+                        
+                        <p className={isRoomApprove ? styles.activeP : ''}onClick={() => setIsRoomAprove(true)}>Да</p>
+                        <p className={isRoomApprove ? '' : styles.activeP}onClick={() => setIsRoomAprove(false)}>Нет</p>
                     </div>
                     : null}
                     

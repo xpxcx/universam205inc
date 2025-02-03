@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import styles from './styles.module.scss';
-import { useAddProductMutation } from '../../redux/adminApiSlice';
+import { useAddProductMutation } from '../../redux/apiSlice';
 type FormInput = {
     id: number,
     title: string,

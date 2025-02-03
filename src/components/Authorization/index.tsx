@@ -3,7 +3,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import styles from './styles.module.scss';
-import { useAutorizeMutation } from '../../redux/userApiSlice';
+import { useAutorizeMutation, useGetCurrentUserQuery } from '../../redux/userApiSlice';
 
 type FormInput = {
     login: string,
@@ -19,14 +19,16 @@ export const Authorization = () => {
         reset,
     } = useForm<FormInput>();
     const [ login ] = useAutorizeMutation();
-  
+    const { refetch: refetchUser } = useGetCurrentUserQuery();
+
+    
     const onSubmit = async (data: FormInput) => {
         try {
             const result = await login(data).unwrap();
             localStorage.setItem('token', result.token);
+            await refetchUser();
             navigate('/user');
-            window.location.reload();
-            reset();
+            // reset();
         }catch(error: any) {
             if(error.data?.message === 'Пользователь не найден') {
                 setErrorMessage('Пользователь не найден');

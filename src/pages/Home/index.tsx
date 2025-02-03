@@ -7,8 +7,8 @@ import { useGetProductsQuery } from "../../redux/apiSlice";
 
 export const Home = () => {
     const { categoryID, searchValue } = useAppSelector((state) => state.filter);
-    const { data: products } = useGetProductsQuery({categoryID: categoryID, search: searchValue});
-
+    const { data: products } = useGetProductsQuery({categoryId: categoryID, search: searchValue});
+    console.log(products);
 
 
     return (

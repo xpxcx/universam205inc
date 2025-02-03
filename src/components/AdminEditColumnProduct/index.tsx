@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 
 import styles from './styles.module.scss'
-import { useEditProductMutation } from "../../redux/adminApiSlice";
+import { useEditProductMutation } from '../../redux/apiSlice';
 import { useNavigate } from "react-router";
 type FormInput = {
     title: string,

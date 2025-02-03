@@ -16,13 +16,18 @@ export const Product: React.FC<CartItemProps> = ({ id, title, price, imageUrl, s
     const [addToCart] = useAddToCartMutation();
     const [removeFromFavorite] = useRemoveFromFavoriteMutation();
     const { data: favorites } = useGetFavoriteQuery();
-    
     const addToCartBtn = (productId: number) => {
-        addToCart({
-            productId, 
-            quantity: 1,
-        })
-
+        if (!localStorage.getItem('token')) {
+            alert('Сначала авторизируйтесь');
+        }
+        else{
+            addToCart({
+                productId, 
+                quantity: 1,
+            })
+        }
+        
+       
     };
     const onClickUnFavorite = (productId: number) => {
         addToFavorite({ productId })

@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import { Search } from '../AdminSearch';
 import { useAppSelector } from '../../redux/hooks';
-import { useDeleteProductMutation, useGetProductsQuery, useUpdateInStockMutation } from '../../redux/adminApiSlice';
+import { useDeleteProductMutation, useGetProductsQuery, useUpdateInStockMutation } from '../../redux/apiSlice';
 import React from 'react';
 import { AdminEditColumnProduct } from '../AdminEditColumnProduct';
 import { Modal } from '../Modal';
@@ -16,6 +16,7 @@ type Product = {
         type: string;
         inStock: number;
 }
+
 export const EditProduct = () => {
     const [product, setProduct] = React.useState<Product | null >(null);
     const [removeProduct] = useDeleteProductMutation();
@@ -23,25 +24,25 @@ export const EditProduct = () => {
         removeProduct({id});
     };
     const { adminCategoryID, adminSearchValue } = useAppSelector(state => state.filter)
-    const { data: Products } = useGetProductsQuery({ categoryId: adminCategoryID, search: adminSearchValue });
+    const { data: products } = useGetProductsQuery({ categoryId: adminCategoryID, search: adminSearchValue });
     const [updateCountProduct] = useUpdateInStockMutation();
-    
     const onClickPlus = async (id: number) => {
         await updateCountProduct({
             amount: 1,
             id: id
         })
+
     }
     const onClickMinus = async(id: number) => {
         await updateCountProduct({
             amount: -1,
             id: id
         })
-    }
+    }   
     return (
         (<div className={styles.cart}>
             <Search/>
-                {Products?.map((obj) => (
+                {products?.map((obj) => (
                 <div key={obj.id} className={styles.item}>
                 <div className={styles.itemimg}>
                     <img src={obj.imageUrl} alt="items-img" />
@@ -67,7 +68,8 @@ export const EditProduct = () => {
             </div>   
             ))}
             {product && <Modal 
-                    onClose={() => setProduct(null)}>
+                    onClose={() => setProduct(null)}
+                    stylesModal={'editProduct'}>
                     <AdminEditColumnProduct
                     {...product}
                     />

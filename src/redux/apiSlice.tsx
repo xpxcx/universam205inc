@@ -1,10 +1,15 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
+import { ApiTags } from './apiTypes.ts'
 export type BaseItem = {
-    imageUrl: string,
-    title: string,
-    price: number,
-    type: 'food' | 'drink'
+    id: number;
+    title: string;
+    price: number;
+    imageUrl: string;
+    category: string;
+    size: number;
+    unit: string;
+    type: string;
+    inStock: number;
 }
 
 type Food = BaseItem &{
@@ -55,6 +60,34 @@ interface AddCart {
     productId: number,
     quantity: number,
 }
+
+interface ProductInput {
+    id: number,
+    title: string,
+    price: number,
+    imageUrl: string,
+    category: string,
+    size: number,
+    unit: string,
+    type: string,
+    inStock: number
+}
+interface ProductResponse {
+
+    id: number,
+    title: string,
+    price: number,
+    imageUrl: string,
+    category: string,
+    size: number,
+    unit: string,
+    type: string,
+    inStock: number
+}
+interface ProductBody {
+    categoryId: number,
+    search: string
+}
 export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001/api',
@@ -66,13 +99,13 @@ export const apiSlice = createApi({
             return headers;
         }
     }),
-    tagTypes: ['Product', 'Cart', 'Favorites'],
+    tagTypes: ['Product', 'Cart', 'Favorites'] as ApiTags[],
     endpoints: (builder) => ({
-        getProducts: builder.query<BaseItem[], { categoryID: number, search?: string}> ({
-            query: ({ categoryID, search }) => ({
+        getProducts: builder.query<BaseItem[], { categoryId: number, search?: string}> ({
+            query: ({ categoryId, search }) => ({
                 url: '/products',
                 params: {
-                ...(categoryID > 0 ? {category: categoryID} : {}),
+                ...(categoryId > 0 ? {category: categoryId} : {}),
                 ...(search ? { search } : {})
                 }
             }),
@@ -161,6 +194,53 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['Favorites']
         }),
+        addProduct: builder.mutation<{ message: string }, ProductInput>({
+            query: ({ title, price, imageUrl, category, size, unit, type, inStock}) => ({
+                url: '/admin/products',
+                method: 'POST',
+                body: {
+                    title, 
+                    price, 
+                    imageUrl, 
+                    category, 
+                    size, 
+                    unit, 
+                    type,
+                    inStock
+                }
+            }),
+            invalidatesTags: ['Product', 'adminProduct']
+        }),
+        editProduct: builder.mutation<ProductResponse, ProductInput>({
+
+            query: ({ id, ...data}) => {
+                return {url: `/admin/products/${id}`,
+                method: 'PUT',
+                body: {
+                    ...data,
+                }}
+                
+            },
+            invalidatesTags: ['Product', 'adminProduct']
+        }),
+        deleteProduct: builder.mutation<{ message: string}, {id: number}>({
+            query: ({ id }) => ({
+                url: `/admin/products/${id}`,
+                method: 'DELETE'
+            }),
+            invalidatesTags: ['Product', 'adminProduct']
+        }),
+        updateInStock: builder.mutation<{ message: string, inStock: number }, { amount: number, id: number}>({
+            query: ({ amount, id }) => ({
+                url: `/admin/products/${id}/stock`,
+                method: 'PATCH',
+                body: {
+                    amount
+                }
+            }),
+            invalidatesTags: ['Product', 'adminProduct']
+        })
+        
     })
 });
 
@@ -175,4 +255,8 @@ export const {
     useAddOnFavoriteMutation,
     useRemoveAllFavoriteMutation,
     useRemoveFromFavoriteMutation,
+    useAddProductMutation,
+    useEditProductMutation,
+    useDeleteProductMutation,
+    useUpdateInStockMutation,
 } = apiSlice;
