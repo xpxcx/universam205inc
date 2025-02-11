@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: universam205-backend
+    env: node
+    buildCommand: cd server && npm install
+    startCommand: cd server && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: universam205-db
+          property: connectionString
+
+databases:
+  - name: universam205-db
+    databaseName: universam205
+    user: universam205_user
+    plan: free
