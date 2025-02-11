@@ -4,32 +4,30 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    @media (max-width: 510px) {
-        width: 87%;
-        height: 455px;
-        
-    }
+   
 }
-
 .auhorizationBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     border: 1px solid;
     border-color: rgb(221, 218, 215);
-    width: 415px;
+    width: 495px;
     height: 305px;
-
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.191);
     border-radius: 19px;
+    margin-left: 11px;
+    margin-right: 11px;
 }
 .title {
     display: flex;
-    justify-self: center;
     font-size: 21px;
 }
 .dataBlock {
     display: flex;
     flex-direction: column;
-    margin: 55px 15px 5px 15px;
+    margin: 35px 15px 5px 11px;
 }
 
 .inputLogin {
@@ -46,21 +44,14 @@
     border: 1px solid;
 }
 
-.inputRoom {
-    border-radius: 15px;
-    padding: 5px;
-    border: 1px solid;
-}
 .signInBtn {
     display: flex;
-    justify-self: center;
     margin-top: 17px;
     background-color:  rgb(98, 189, 98);
     color: rgb(48, 48, 48);
     border: 0;
     border-radius: 15px;
     padding: 5px;
-    width: 139px;
     justify-content: center;
     align-items: center;
 }
@@ -79,4 +70,10 @@
 
 .linkToRegistr {
     color: rgb(85, 84, 84);
+    margin: 0;
+}
+.inputRoom {
+    border-radius: 15px;
+    padding: 5px;
+    border: 1px solid;
 }
