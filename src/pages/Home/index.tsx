@@ -9,8 +9,6 @@ import { Skeleton } from "../../components/Product/Skeleton";
 export const Home = () => {
     const { categoryID, searchValue } = useAppSelector((state) => state.filter);
     const { data: products, isLoading } = useGetProductsQuery({categoryId: categoryID, search: searchValue});
-    console.log(products);
-
     const skeleton = [...Array(15)].map((_, index) => <Skeleton key={index}/>)
     return (
         <div className={styles.containerHome}>

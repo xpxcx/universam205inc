@@ -1,6 +1,8 @@
 import { Link, useNavigate } from 'react-router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Flex, Spin } from 'antd';
 
 import styles from './styles.module.scss';
 import { useAutorizeMutation } from '../../redux/userApiSlice';
@@ -17,7 +19,7 @@ export const Authorization = () => {
         register, 
         handleSubmit, 
     } = useForm<FormInput>();
-    const [ login ] = useAutorizeMutation();
+    const [ login, { isLoading }] = useAutorizeMutation();
     const { refetch: refetchCart } = useGetCartQuery();
     
     const onSubmit = async (data: FormInput) => {
@@ -89,9 +91,12 @@ export const Authorization = () => {
                     </Link>
                     </div>
                 }
-                
+                {isLoading ? 
+                <Flex align="center" gap="middle">
+                <Spin indicator={<LoadingOutlined spin />} size="large" className={styles.spinner}/>
+                </Flex> : 
                 <button type='submit' className={styles.signInBtn}>Войти</button>
-                
+            }
             </div>
         </div>
         </form>

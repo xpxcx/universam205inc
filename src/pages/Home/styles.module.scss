@@ -1,8 +1,8 @@
 .containerHome {
     position: relative;
     display: flex;
-    padding: 15px;
-    padding-top: 11px;
+    // padding: px;
+    // padding-top: 11px;
     justify-content: center;
     .items{
       display: grid;
@@ -11,7 +11,7 @@
       @media (max-width: 1325px) {
         grid-template-columns: repeat(4, 1fr);
       }
-      @media (max-width: 1050px) {
+      @media (max-width: 1120px) {
         grid-template-columns: repeat(3, 1fr);
       }
       @media (max-width: 775px) {

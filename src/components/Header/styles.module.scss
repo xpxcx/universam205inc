@@ -6,7 +6,7 @@
     padding-left: 15px;
     .title {
       @media (max-width: 414px) {
-        font-size: 25px;
+        font-size: 23px;
       }
     }
     a {
@@ -45,7 +45,8 @@
     .totalPrice {
       margin: 0;
       margin-bottom: 1px;
-      margin-left: 2px;
+      // margin-left: px;
+      margin-right: 3px;
       text-decoration: none;
     }
     .admin {

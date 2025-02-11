@@ -8,6 +8,8 @@ import { useCreateOrderMutation } from '../../redux/orderApiSlice';
 import { OrderResponse } from '../../redux/orderApiSlice';
 import { Link } from 'react-router';
 import { debounce } from 'lodash';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Flex, Spin } from 'antd';
 interface CartQuantityState {
     productId: number;
     quantity: number;
@@ -15,7 +17,7 @@ interface CartQuantityState {
 export const Cart = () => {
     const [isOrderModalOpened, setIsOrderModalOpened] = React.useState(false);
     const [orderResponse, setOrderResponse] = React.useState<OrderResponse | null>(null);
-    const { data: cartItem } = useGetCartQuery();
+    const { data: cartItem, isLoading } = useGetCartQuery();
     const [removeFromCart] = useRemoveFromCartMutation();
     const [removeAllCart] = useRemoveAllCartMutation();
     const [updateCountProduct] = useUpdateCountProductMutation();
@@ -43,7 +45,9 @@ export const Cart = () => {
     const onClickPlus = (productId: number, quantity: number) => {
         updateQuantity(productId, quantity, +1);
     }
-
+    const onClickMinus = async(productId: number, quantity: number) => {
+        updateQuantity(productId, quantity, -1);
+    }
     React.useEffect(() => {
         if (cartQuantity.length === 0) return;
 
@@ -58,11 +62,6 @@ export const Cart = () => {
         debouncedUpdate();
         return () => debouncedUpdate.cancel();
     }, [cartQuantity, updateCountProduct]);
-    
-    const onClickMinus = async(productId: number, quantity: number) => {
-        updateQuantity(productId, quantity, -1);
-
-    }
     const onClickOrder = async() => {
         const response = await createOrder().unwrap();
         setOrderResponse(response);
@@ -82,7 +81,13 @@ export const Cart = () => {
         refetchCart();
     } 
     return (
-
+        isLoading ? 
+            <div className={styles.loadingWindow}>
+            <Flex align="center" gap="middle">
+            <Spin indicator={<LoadingOutlined style={{fontSize: 65}}spin />} size="large"  className={styles.spinner}/>
+            </Flex> 
+            </div> 
+            :  
        ( cartItem?.totalCount === 0 || !localStorage.getItem('token')) ?
         <CartEmpty/> 
         :
@@ -116,6 +121,7 @@ export const Cart = () => {
                 
             ))}
             </div>
+            <div className={styles.priceAndOrder}>
             <p className={styles.totalPrice}>Общая сумма: {Math.round(cartItem?.totalPrice ?? 0)}</p>
             <button className={styles.buttonOrder} onClick={onClickOrder}>Оформить заказ</button>
             {isOrderModalOpened && <Modal
@@ -125,8 +131,9 @@ export const Cart = () => {
                 orderResponse={orderResponse}
                 />
             </Modal>}
+            </div>
         </div>)
-        
+
     );
 };
 

@@ -1,10 +1,12 @@
 import { Link } from 'react-router';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Flex, Spin } from 'antd';
 import { useAddToCartMutation, useGetFavoriteQuery, useRemoveAllFavoriteMutation, useRemoveFromFavoriteMutation } from '../../redux/apiSlice';
 import { FavoriteEmpty } from './FavoriteEmprty';
 import styles from './styles.module.scss';
 
 export const Favorite = () => {
-    const { data: favoriteItem } = useGetFavoriteQuery();
+    const { data: favoriteItem, isLoading } = useGetFavoriteQuery();
     const [removeFromFavorite] = useRemoveFromFavoriteMutation();
     const [addToCart] = useAddToCartMutation();
     const onClickDelelte = (productId: number) => (
@@ -26,7 +28,15 @@ export const Favorite = () => {
         </div>
     }
     return (
-        favoriteItem?.Products?.length === 0 ? 
+        isLoading ? 
+            <div className={styles.loadingWindow}>
+            <Flex align="center" gap="middle">
+            <Spin indicator={<LoadingOutlined style={{fontSize: 65}}spin />} size="large"  className={styles.spinner}/>
+            </Flex> 
+            </div> 
+            :  
+        <>
+        {favoriteItem?.Products?.length === 0 ? 
         <FavoriteEmpty /> 
         :
         (<div className={styles.cart}>
@@ -54,6 +64,7 @@ export const Favorite = () => {
             ))}
         </div>
         </div>)
-        
+        }
+        </>
     );
 };

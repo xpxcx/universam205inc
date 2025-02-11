@@ -1,16 +1,33 @@
 .container {
     margin: 15px;
     @media(max-width: 555px) {
-        height: 539px;
+        height: 619px;
     }
+    height: 619px;
 } 
+.loadingWindow {
+    display: flex;
+    height: 619px;
+    align-items: center;
+    justify-content: center;
+  }
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    h1 {
+        margin: 0;
+        margin-bottom: 7px;
+        margin-left: 5px;
+    }
+}
 .dataBlock {
     border: 1px solid;
     border-radius: 15px;
     width: 355px;
     padding: 9px;
     padding-left: 25px;
-    
+    max-width: 90%;
 }
 .roomSetting {
     display: flex;

@@ -6,6 +6,8 @@ import React from 'react';
 import { AdminEditColumnProduct } from '../AdminEditColumnProduct';
 import { Modal } from '../Modal';
 import { useForm } from 'react-hook-form';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Flex, Spin } from 'antd';
 type Product = {
         id: number;
         title: string;
@@ -29,7 +31,7 @@ export const EditProduct = () => {
         removeProduct({id});
     };
     const { adminCategoryID, adminSearchValue } = useAppSelector(state => state.filter)
-    const { data: products } = useGetProductsQuery({ categoryId: adminCategoryID, search: adminSearchValue });
+    const { data: products, isLoading } = useGetProductsQuery({ categoryId: adminCategoryID, search: adminSearchValue });
     const [updateCountProduct] = useUpdateInStockMutation();
     const onClickUpdate = async (data: FormInput) => {
         await updateCountProduct({
@@ -48,8 +50,16 @@ export const EditProduct = () => {
         setEditProductId(id);
     }
     return (
+        isLoading ? 
+            <div className={styles.loadingWindow}>
+            <Flex align="center" gap="middle">
+            <Spin indicator={<LoadingOutlined style={{fontSize: 65}}spin />} size="large"  className={styles.spinner}/>
+            </Flex> 
+            </div> 
+            :  
         (<div className={styles.cart}>
             <Search/>
+            <div className={styles.items}>
                 {products?.map((obj) => (
                 <div key={obj.id} className={styles.item}>
                 <div className={styles.itemimg}>
@@ -93,6 +103,8 @@ export const EditProduct = () => {
                 
             </div>   
             ))}
+            </div>
+            
             {product && <Modal 
                     onClose={() => setProduct(null)}
                     stylesModal={'editProduct'}>

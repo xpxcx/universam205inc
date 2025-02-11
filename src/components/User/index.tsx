@@ -3,9 +3,10 @@ import { useNavigate } from "react-router";
 import { useEditUserRoomMutation, useGetCurrentUserQuery, useSignOutMutation } from "../../redux/userApiSlice";
 import styles from './styles.module.scss';
 import { useGetCartQuery } from "../../redux/apiSlice";
-
+import { LoadingOutlined } from '@ant-design/icons';
+import { Flex, Spin } from 'antd';
 export const User = () => {
-    const { data: user } = useGetCurrentUserQuery(undefined, {skip: !localStorage.getItem("token")});
+    const { data: user, isLoading } = useGetCurrentUserQuery(undefined, {skip: !localStorage.getItem("token")});
     const [editRoom] = useEditUserRoomMutation();
     const { refetch: refetchCart } = useGetCartQuery();
 
@@ -34,6 +35,15 @@ export const User = () => {
     }
     return (
         <div className={styles.container}>
+            
+            {isLoading ? 
+                <div className={styles.loadingWindow}>
+                <Flex align="center" gap="middle">
+                <Spin indicator={<LoadingOutlined style={{fontSize: 65}}spin />} size="large"  className={styles.spinner}/>
+                </Flex> 
+                </div> 
+                :  
+            <div className={styles.content}>
             <h1>Профиль</h1>
             <div className={styles.dataBlock}>
                 <p>{user?.login}</p>
@@ -55,7 +65,8 @@ export const User = () => {
                 <button className={styles.exitBtn} onClick={onClickExit} >Выйти</button>
 
             </div>
-            
+            </div> 
+            }
         </div>
     );
 }

@@ -1,9 +1,19 @@
 .cart{
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   flex-direction: column;
   margin: 15px;
+  height: 619px;
+}
+.loadingWindow {
+  display: flex;
+  height: 649px;
+  align-items: center;
+  justify-content: center;
+}
+.items {
+  overflow: auto;
 }
 .item {
   display: flex;
@@ -110,7 +120,13 @@
   }
   
 }
-
+.priceAndOrder {
+  p {
+    margin: 0;
+    margin-bottom: 7px;
+  }
+  margin-bottom: 5px;
+}
 .buttonOrder {
   border: 0;
   border-radius: 15px;
@@ -135,9 +151,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 45px;
-    padding: 15px;
-    
+      padding: 15px;
+    height: 619px;
     .title{
       margin: 0;
       margin-top: 25px;
@@ -169,7 +184,7 @@
 
 .unAuth {
   width: 100%;
-  height: 355px;
+  height: 649px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -185,12 +200,11 @@
   }
 }
 @media(max-width: 555px) {
-  .items {
-    height: 575px;
-    overflow-y: scroll;
+  .cart {
+    height: 619px;
   }
-  .clearCart {
-    height: 455px;
+  .items {
+    overflow-y: scroll;
   }
   .clearCartButton {
     display: flex;
@@ -252,8 +266,8 @@
     justify-content: center;
     align-items: center;
     position: absolute;
-    bottom: 19px;
-    right: 35px;
+    bottom: 11px;
+    right: 15px;
   }
     .minus, .plus{
     margin: 0;

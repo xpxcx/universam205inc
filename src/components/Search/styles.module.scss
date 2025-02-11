@@ -1,28 +1,30 @@
 .search{
-    display: flex;
-    justify-self: flex-end;
-    position: relative;
-    margin: 0;
-    margin-right: 15px;
-    width: 180px;
-    @media (max-width: 414px) {
-      justify-self: center;
-      margin: 0;
-    }
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  margin: 0;
+  margin-top: 15px;
+  @media(max-width: 555px) {
+    justify-content: center;
   }
-
+}
+.searchBlock {
+  display: flex;
+  width: 185px;
+  position: relative;
+}
 .searchInput {
-  border-radius: 15px;
-  padding: 7px;
-  border-color: rgb(60, 65, 63);
+border-radius: 15px;
+padding: 7px;
+border-color: rgb(60, 65, 63);
 }
 .clearItemImg {
-  position: absolute;
-  right: 9px;
-  top: 11px;
-  opacity: 0.5;
-  &:hover {
-    cursor: pointer;
-    opacity: 1;
-  }
+position: absolute;
+right: 17px;
+top: 12px;
+opacity: 0.5;
+&:hover {
+  cursor: pointer;
+  opacity: 1;
+}
 }

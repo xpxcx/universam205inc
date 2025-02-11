@@ -1,14 +1,22 @@
 .cart{
     display: flex;
-    justify-content: center;
+    // justify-content: center;
     flex-direction: column;
     margin: 15px;
+    align-items: center;
+    height: 619px;
+    // margin-top: 27px;
+  }
+  .loadingWindow {
+    display: flex;
+    height: 649px;
+    align-items: center;
+    justify-content: center;
   }
   .items {
     align-self: center;
-    @media(max-width: 555px) {
-      overflow: auto;
-    }
+    overflow: auto;
+    margin-bottom: 25px;
   }
   .item {
     display: flex;
@@ -21,7 +29,7 @@
     padding: 5px;
     margin-bottom: 15px;
     margin-right: 25px;
-    margin-top: 15px;
+    margin-top: 11px;
    
     .sizeItem  {
       opacity: 0.5;
@@ -116,11 +124,8 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      margin: 45px;
       padding: 15px;
-      @media(max-width: 555px) {
-        height: 575px;
-      } 
+      height: 619px;
       .title{
         display: flex;
         margin: 0;
@@ -135,6 +140,7 @@
   
       .descr{
         margin: 0;
+        text-align: center;
       }
       button {
         width: 170px;
@@ -159,7 +165,7 @@
   
     .unAuth {
       width: 100%;
-      height: 355px;
+      height: 649px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -176,13 +182,14 @@
     }
 
     @media(max-width: 555px) {
+      .cart {
+        margin-top: 29px;
+      }
       .items {
-        height: 575px;
-        overflow-y: scroll;
+        overflow: auto;
+
       }
-      .clearCart {
-        height: 455px;
-      }
+      
       .clearCartButton {
         display: flex;
         font-size: 19px;
@@ -237,6 +244,8 @@
       }
     }
     .clearCart {
+      height: 619px;
+
       .title {
         font-size: 21px;
       }

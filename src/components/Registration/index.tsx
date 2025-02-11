@@ -4,6 +4,8 @@ import { useGetCurrentUserQuery, useRegistrMutation } from '../../redux/userApiS
 import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { useGetCartQuery } from '../../redux/apiSlice';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Flex, Spin } from 'antd';
 type FormInput = {
     login: string,
     password: string,
@@ -15,8 +17,9 @@ export const Registration = () => {
         password: '',
         room: ''
     });
+    const [errorMessage, setErrorMessage] = React.useState('');
     const navigate = useNavigate();
-    const [ registr ] = useRegistrMutation();
+    const [ registr, { isLoading } ] = useRegistrMutation();
     const { refetch: refetchCart } = useGetCartQuery();
     
     const onInputData = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,8 +46,10 @@ export const Registration = () => {
         await refetchUser();
         navigate('/user');
         reset();
-        }catch(error) {
-            console.log(error);
+        }catch(error: any) {
+            if(error.data?.message === 'Пользователь с таким логином уже существует') {
+                setErrorMessage('Пожалуйста, придумайте другой логин');
+            }
         }
     };
     
@@ -53,6 +58,8 @@ export const Registration = () => {
             <div className={styles.auhorization}>
                 <div className={styles.auhorizationBlock}>
                     <p className={styles.title}>Регистрация</p>
+                    {errorMessage !== '' ? errorMessage : null}
+
                     <div className={styles.dataBlock}>
                         <input 
                         {...register('login',
@@ -63,6 +70,7 @@ export const Registration = () => {
                         className={styles.inputLogin} 
                         type="text" 
                         placeholder='Логин' 
+                        onFocus={() => setErrorMessage('')}
                         />
                         {errors.login && <p>{errors.login.message}</p>}
                         <input 
@@ -74,22 +82,29 @@ export const Registration = () => {
                         className={styles.inputPassword} 
                         type="text" 
                         placeholder='Пароль' 
+                        onFocus={() => setErrorMessage('')}
                         />
 
                         <input 
                         {...register('room')}  
                         className={styles.inputRoom} 
                         type="text" 
-                        placeholder='Комната (Для возможности доставки)' 
-                        value={registrData.room} onChange={onInputData}/>
+                        placeholder='Комната (Необязательно)' 
+                        value={registrData.room} onChange={onInputData}
+                        onFocus={() => setErrorMessage('')}
+                        />
 
                     </div>
                     <div className={styles.registration}>
 
                         
                     </div>
+                    {isLoading ? 
+                    <Flex align="center" gap="middle">
+                        <Spin indicator={<LoadingOutlined spin />} size="large"  className={styles.spinner}/>
+                    </Flex> : 
                     <button type='submit' className={styles.signInBtn}>Зарегистрироваться</button>
-                    
+                }
                 </div>
             </div>
         </form>

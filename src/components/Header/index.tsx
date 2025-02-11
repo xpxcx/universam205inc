@@ -14,8 +14,9 @@ export const Header = () => {
                 <Link to='/' className={styles.linkHome}>
                 <h1 className={styles.title}>Универсам 205</h1>
                 </Link>
+                
                 <div className={styles.headerElem}>
-                    {user?.role === 'admin' && 
+                    {user?.role === 'admin' && localStorage.getItem('token') !== null&& 
                     <Link to='/admin'>
                         <img className={styles.admin} src="/img/adminPanel.svg" alt="" />
                     </Link>
@@ -29,7 +30,7 @@ export const Header = () => {
                         <div className={styles.cart}>
                             
                                 <img src="/img/cart-logo.svg" alt="" width={35} height={35}/>
-                            {localStorage.getItem('token') !== null && cartItem?.totalPrice !== 0 &&  <p className={styles.totalPrice}>{Math.round(cartItem?.totalPrice ?? 0)} ₽</p>}
+                            {localStorage.getItem('token') !== null && cartItem?.totalPrice !== 0 &&  <p className={styles.totalPrice}>{Math.round(cartItem?.totalPrice ?? 0)}₽</p>}
                            
                         </div>
                         </Link>
