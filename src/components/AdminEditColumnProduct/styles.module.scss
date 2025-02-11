@@ -31,6 +31,9 @@
         background-color: darken(rgb(98, 189, 98), 15%);
 
     }
+    @media(max-width: 555px) {
+        font-size: 15px;
+    }
 }
 
 

@@ -1,9 +1,14 @@
 .search{
     display: flex;
-    justify-content: flex-end;
+    justify-self: flex-end;
     position: relative;
     margin: 0;
     margin-right: 15px;
+    width: 180px;
+    @media (max-width: 414px) {
+      justify-self: center;
+      margin: 0;
+    }
   }
 
 .searchInput {

@@ -45,7 +45,6 @@ export const AdminEditColumnProduct: React.FC<EditColumnProps> = ({ id, title, p
         }
     });
     const onClickEdit = (data: FormInput) => {
-        console.log(id)
         try {
             editProduct({
             id: id,

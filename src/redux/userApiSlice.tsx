@@ -32,13 +32,13 @@ export const userApiSlice = createApi({
         prepareHeaders: (headers) => {
             const token = localStorage.getItem('token');
             if (token) {
-                headers.set('authorization', `Bearer ${token}`)
+                headers.set('Authorization', `Bearer ${token}`)
             }
             return headers;
         }
      }),
     
-    tagTypes: ['Auth', 'User'],
+    tagTypes: ['Auth', 'User', 'Products', 'Cart'],
     endpoints: (builder) => ({
         logout: builder.mutation<void, void>({
             queryFn: () => {
@@ -71,14 +71,14 @@ export const userApiSlice = createApi({
                     password: password
                 }
             }),
-            invalidatesTags: ['Auth']
+            invalidatesTags: ['Auth', 'Cart', 'Products']
         }),
         getCurrentUser: builder.query<UserData, void> ({
             query: () => ({
                 url: '/me',
                 method: 'GET'
             }),
-            providesTags: ['Auth']
+            providesTags: ['User']
         }),
         editUserRoom: builder.mutation<UserData, {room: string}> ({
             query: ({ room }) => ({
@@ -95,7 +95,7 @@ export const userApiSlice = createApi({
                 localStorage.removeItem('token');
                 return { data: undefined };
             },
-            invalidatesTags: ['Auth', 'User'],
+            invalidatesTags: ['Auth', 'User', 'Cart'],
         })
     })
 });

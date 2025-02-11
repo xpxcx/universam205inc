@@ -1,4 +1,5 @@
     import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+    
     export interface OrderResponse {
             id: number,          
             userId: number,      
@@ -64,7 +65,8 @@
             getOrder: builder.query<OrderResponse, { id: number | undefined}> ({
                 query: ({ id }) => `/orders/${id}`,
                 providesTags: ['Order']
-            })
+            }),
+            
         }),
         
         

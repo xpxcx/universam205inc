@@ -44,7 +44,6 @@ export const Product: React.FC<CartItemProps> = ({ id, title, price, imageUrl, s
     return (
             
             <div className={styles.item}>
-                
                 {checkInFavorite(id) ?  
                 <img className={styles.favorite} src="/img/liked.svg" alt="liked" width={15} height={15} onClick={() => onClickFavorite(id)} /> 
                 : 

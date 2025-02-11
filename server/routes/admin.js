@@ -101,23 +101,20 @@ router.patch('/products/:id/stock', adminMiddleware, async (req, res) => {
             return res.status(400).json({ message: 'amount должен быть числом' });
         }
 
+        if (amount < 0) {
+            return res.status(400).json({ message: 'Количество товара не может быть отрицательным' });
+        }
+
         const product = await Product.findByPk(id);
         if (!product) {
             return res.status(404).json({ message: 'Товар не найден' });
         }
 
         console.log('Current inStock:', product.inStock);
-        console.log('Amount to add:', amount);
-        
-        const newStock = product.inStock + amount;
-        console.log('New stock will be:', newStock);
-        
-        if (newStock < 0) {
-            return res.status(400).json({ message: 'Недостаточно товара на складе' });
-        }
+        console.log('New amount:', amount);
 
-        await product.update({ inStock: newStock });
-        res.json({ message: 'Количество товара обновлено', inStock: newStock });
+        await product.update({ inStock: amount });
+        res.json({ message: 'Количество товара обновлено', inStock: amount });
     } catch (error) {
         console.error('Error updating stock:', error);
         res.status(500).json({ message: error.message });

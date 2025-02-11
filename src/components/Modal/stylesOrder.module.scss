@@ -9,6 +9,9 @@
     justify-content: center;
     align-items: center;
     z-index: 100;
+    // @media(max-width: 555px) {
+    //     align-items: flex-start;
+    // }
 }
 
 
@@ -19,7 +22,11 @@
     border-radius: 15px;
     padding: 11px;
     overflow: auto;
-
+    // margin-top: 95px;
+    @media(max-width: 555px) {
+        width: 355px;
+        height: 77%;
+    }
 }
 
 .closeButton {
@@ -35,6 +42,9 @@
     &:hover {
         cursor: pointer;
         opacity: 1;
+    }
+    @media(max-width: 555px) {
+        font-size: 35px;
     }
 }
 

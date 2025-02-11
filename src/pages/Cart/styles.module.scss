@@ -7,9 +7,9 @@
 }
 .item {
   display: flex;
-  position: relative;
-  width: 67%;
-  min-width: 790px;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 75vw;
   border: 1px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.191);
   margin-left: 10px;
@@ -18,27 +18,25 @@
   margin-bottom: 15px;
   margin-right: 25px;
   margin-top: 15px;
-  .sizeItem  {
-    position: absolute;
-    left: 531px;
-    top: 29px;
-    // display: flex;
-    // right: 19px;
-    // bottom: 95px;
-    opacity: 0.5;
-    margin-left: 15px;
-  }
+  
   .title{
     font-size: 14px;
     margin-top: 35px;
     margin-left: 0;
     margin-bottom: 0;
-    width: 415px;
   }
   .productInfo {
     display: flex;
     flex-direction: column;
     padding: 0;
+    width: 355px;
+    .size {
+      opacity: 0.5;
+    }
+    .totalItemPrice {
+      margin: 0;
+      margin-top: 5px;
+    }
   }
   .pricetext {
     justify-self: start;
@@ -64,35 +62,32 @@
       object-fit: contain; 
     }
   }
+  
   .trash {
-    display: block;
-    margin-left: auto;
-    margin-top: 15px;
-    margin-right: 15px;
-    opacity: 0.5;
-    transition: 0.2s ease-in-out;
+    display: flex;
+    margin-top: 11px;
+    margin-right: 9px;
     &:hover {
       opacity: 1;
       cursor: pointer;
     }
   }
   .totalPrice {
-    position: absolute;
-    right: 15px;
-    top: 55px;
-    margin-left: auto;
-    margin-top: 15px;
+    display: flex;
+    margin-top: 27px;
+    margin-right: 7px;  
+    @media(max-width: 555px) {
+      margin: 0;
+    }  
   }
   .countItem {
     display: flex;
-    position: absolute;
     flex-direction: column;
-    top: 33px;
-    right: 155px;
     justify-content: center;
     align-items: center;
+    margin-left: 35px;
+    align-self: center;
   }
-    cursor: pointer;
     .plus, .minus{
     margin: 0;
     opacity: 0.5;
@@ -114,6 +109,7 @@
   }
   
 }
+
 .buttonOrder {
   border: 0;
   border-radius: 15px;
@@ -145,10 +141,10 @@
       margin: 0;
       margin-top: 25px;
     }
-
-    .descr{
+    p {
       margin: 0;
     }
+    
     button {
       width: 170px;
       height: 37px;
@@ -169,6 +165,7 @@
     
 
   }
+
 .unAuth {
   width: 100%;
   height: 355px;
@@ -185,4 +182,114 @@
     margin-top: 15px;
     font-size: 17px;
   }
+}
+@media(max-width: 555px) {
+  .items {
+    height: 575px;
+    overflow-y: scroll;
+  }
+  .clearCart {
+    height: 455px;
+  }
+  .clearCartButton {
+    display: flex;
+    font-size: 19px;
+    justify-self: center;
+  }
+  .buttonOrder {
+    font-size: 19px;
+    padding: 11px;
+  }
+  .totalPrice {
+    font-size: 19px;
+    margin: 0;
+    margin-top: 9px;
+    margin-bottom: 9px;
+  }
+  .item {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 225px;
+    height: 405px;
+    border: 1px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.191);
+    border-radius: 19px;
+    padding: 10px;
+    margin-bottom: 15px;
+    transition: 0.2s ease-in-out;
+    margin-right: 25px;
+    margin-top: 35px;
+  .itemimg {
+    width: 100%; 
+    height: 200px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+    img {
+      max-width: 80%; 
+      max-height: 100%;
+      object-fit: contain;
+    }
+  }
+  .title {
+    font-size: 14px;
+    width: 100%;
+  }
+  .productInfo {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    width: 215px;
+    margin-bottom: 65px;
+  }
+  .countItem {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 19px;
+    right: 35px;
+  }
+    .minus, .plus{
+    margin: 0;
+    opacity: 0.5;
+    transition: 0.2s ease-in-out;
+    border: 0;
+    background-color: #ffffff;
+    font-size: 35px;
+    align-self: center;
+    &:not(:disabled):hover {
+      opacity: 1;
+      cursor: pointer;
+    }
+    &:disabled {
+      cursor: default;
+    }
+  }
+  .count {
+    margin: 0;
+    // margin-top: 15px;
+    // margin-bottom: 15px;  
+  }
+  
+}
+.trash {
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 5px;
+  opacity: 0.5;
+  &:active {
+    opacity: 1;
+  }
+}
+.clearCart {
+  .title {
+    font-size: 21px;
+  }
+}
 }

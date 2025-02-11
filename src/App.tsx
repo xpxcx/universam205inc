@@ -10,6 +10,9 @@ import { Registration } from './components/Registration/index.tsx';
 import { Profile } from './pages/Profile/index.tsx';
 import { Admin } from './pages/Admin/index.tsx';
 
+
+
+import { NotFound } from './components/NotFound/index.tsx'
 import { AddProduct } from './components/AddProduct/index.tsx'; 
 import { EditProduct } from './components/EditProduct/index.tsx';
 import { AdminEditColumnProduct } from './components/AdminEditColumnProduct/index.tsx';
@@ -28,7 +31,8 @@ function App() {
           <Route path='/admin' element={<Admin/>}/>
           <Route path='/adminAddProduct' element={<AddProduct/>}/>
           <Route path='/adminEditProduct' element={<EditProduct/>}/>
-          <Route path='/editColumn' element={<AdminEditColumnProduct/>}/>
+          <Route path='/editColumn' element={<AdminEditColumnProduct id={0} title={''} price={0} imageUrl={''} category={''} size={0} unit={''} type={''} inStock={0}/>}/>
+          <Route path='*' element={<NotFound/>}></Route>
 
           </Route>
       </Routes>

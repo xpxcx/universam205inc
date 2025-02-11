@@ -5,6 +5,7 @@ const authMiddleware = async (req, res, next) => {
     try {
         // Получаем токен из заголовка
         const token = req.headers.authorization?.split(' ')[1];
+        console.log(`req: ${req}, token: ${token}`)
         if (!token) {
             return res.status(401).json({ message: 'Не авторизован' });
         }

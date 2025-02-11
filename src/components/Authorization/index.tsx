@@ -3,8 +3,8 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import styles from './styles.module.scss';
-import { useAutorizeMutation, useGetCurrentUserQuery } from '../../redux/userApiSlice';
-
+import { useAutorizeMutation } from '../../redux/userApiSlice';
+import { useGetCartQuery } from '../../redux/apiSlice';
 type FormInput = {
     login: string,
     password: string
@@ -16,17 +16,15 @@ export const Authorization = () => {
     const { 
         register, 
         handleSubmit, 
-        reset,
     } = useForm<FormInput>();
     const [ login ] = useAutorizeMutation();
-    const { refetch: refetchUser } = useGetCurrentUserQuery();
-
+    const { refetch: refetchCart } = useGetCartQuery();
     
     const onSubmit = async (data: FormInput) => {
         try {
             const result = await login(data).unwrap();
             localStorage.setItem('token', result.token);
-            await refetchUser();
+            refetchCart();
             navigate('/user');
             // reset();
         }catch(error: any) {

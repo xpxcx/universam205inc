@@ -3,6 +3,7 @@ import styles from './styles.module.scss';
 import { useGetCurrentUserQuery, useRegistrMutation } from '../../redux/userApiSlice';
 import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
+import { useGetCartQuery } from '../../redux/apiSlice';
 type FormInput = {
     login: string,
     password: string,
@@ -16,6 +17,8 @@ export const Registration = () => {
     });
     const navigate = useNavigate();
     const [ registr ] = useRegistrMutation();
+    const { refetch: refetchCart } = useGetCartQuery();
+    
     const onInputData = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value} = event.target;
         setRegistrData( prev => ({
@@ -36,9 +39,9 @@ export const Registration = () => {
         try {
         const result = await registr(data).unwrap();
         localStorage.setItem('token', result.token);
+        refetchCart();
         await refetchUser();
         navigate('/user');
-        window.location.reload();
         reset();
         }catch(error) {
             console.log(error);

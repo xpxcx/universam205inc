@@ -3,14 +3,13 @@ const { User, Cart, Favorite } = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-// Middleware для проверки JWT токена
 const authMiddleware = async (req, res, next) => {
     try {
         const token = req.headers.authorization?.split(' ')[1];
+        
         if (!token) {
             return res.status(401).json({ message: 'Не авторизован' });
         }
-
         const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
         req.user = decoded;
         next();
@@ -83,12 +82,12 @@ router.post('/register', async (req, res) => {
 // Авторизация
 router.post('/login', async (req, res) => {
     try {
-        console.log('Login attempt:', req.body);
         const { login, password } = req.body;
 
-        // Ищем пользователя
-        const user = await User.findOne({ where: { login } });
-        console.log('Found user:', user ? { ...user.toJSON(), password: '[HIDDEN]' } : null);
+        // Ищем пользователя и связанные данные через Promise.all
+        const [user] = await Promise.all([
+            User.findOne({ where: { login } })
+        ]);
         
         if (!user) {
             return res.status(400).json({ message: 'Пользователь не найден' });
@@ -96,7 +95,6 @@ router.post('/login', async (req, res) => {
 
         // Проверяем пароль
         const isValidPassword = await bcrypt.compare(password, user.password);
-        console.log('Password valid:', isValidPassword);
         
         if (!isValidPassword) {
             return res.status(400).json({ message: 'Неверный пароль' });
@@ -108,7 +106,6 @@ router.post('/login', async (req, res) => {
             login: user.login,
             role: user.role 
         };
-        console.log('Token payload:', tokenPayload);
         
         const token = jwt.sign(
             tokenPayload,
@@ -116,18 +113,17 @@ router.post('/login', async (req, res) => {
             { expiresIn: '24h' }
         );
 
-        const response = {
-            token,
-            user: {
-                id: user.id,
-                login: user.login,
-                room: user.room,
-                role: user.role
-            }
-        };
-        console.log('Response:', { ...response, token: token.substring(0, 20) + '...' });
+        // Получаем полные данные пользователя и корзину параллельно
+        const [userData] = await Promise.all([
+            User.findByPk(user.id, {
+                attributes: { exclude: ['password'] }
+            })
+        ]);
 
-        res.json(response);
+        res.json({
+            token,
+            user: userData
+        });
     } catch (error) {
         console.error('Login error:', error);
         res.status(500).json({ message: error.message });

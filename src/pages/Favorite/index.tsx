@@ -31,8 +31,9 @@ export const Favorite = () => {
         :
         (<div className={styles.cart}>
             <button className={styles.clearCartButton} onClick={() => removeAllFavorite()}>Очистить избранное</button>
+            <div className={styles.items}> 
+
                 {favoriteItem?.Products.map((obj) => (
-                
                 
                 <div key={obj.id} className={styles.item}>
 
@@ -40,16 +41,18 @@ export const Favorite = () => {
                     <img src={obj.imageUrl} alt="items-img" />
                 </div>
                 <div className={styles.productInfo}>
-                    <h2 className={styles.title}>{obj.title}</h2>
+                    <h2 className={styles.title}>{obj.title}, <span className={styles.sizeItem}>{obj.size}{obj.unit}</span></h2>
                     <p className={styles.pricetext}>Цена за 1 шт:</p>
                     <p className={styles.price}>{obj.price} ₽</p>
                 </div>
-                <p className={styles.sizeItem}>{obj.size}{obj.unit}</p>
-                <img className={styles.liked} src='/img/liked.svg' width={17} height={17} onClick={() => onClickDelelte(obj.id)}/>
-                <img className={styles.addCartButton} src="/img/add-cart.svg" alt="plus" onClick={() => addToCartBtn(obj.id)}/>
-                
+                <div className={styles.likedCart}>
+                    <img className={styles.liked} src='/img/liked.svg'onClick={() => onClickDelelte(obj.id)}/>
+                    <img className={styles.addCartButton} src="/img/add-cart.svg" alt="plus" onClick={() => addToCartBtn(obj.id)}/>
+
+                </div>
             </div>
             ))}
+        </div>
         </div>)
         
     );

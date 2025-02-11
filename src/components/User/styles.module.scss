@@ -1,5 +1,8 @@
 .container {
     margin: 15px;
+    @media(max-width: 555px) {
+        height: 539px;
+    }
 } 
 .dataBlock {
     border: 1px solid;
@@ -7,6 +10,7 @@
     width: 355px;
     padding: 9px;
     padding-left: 25px;
+    
 }
 .roomSetting {
     display: flex;

@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { ApiTags } from './apiTypes.ts'
+
 export type BaseItem = {
     id: number;
     title: string;
@@ -25,7 +25,7 @@ export type Item = Food | Drink;
 
 
 
-interface CartResponse {
+export interface CartResponse {
     Products: {
         id: number;
         title: string;
@@ -84,10 +84,7 @@ interface ProductResponse {
     type: string,
     inStock: number
 }
-interface ProductBody {
-    categoryId: number,
-    search: string
-}
+
 export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001/api',
@@ -99,7 +96,7 @@ export const apiSlice = createApi({
             return headers;
         }
     }),
-    tagTypes: ['Product', 'Cart', 'Favorites'] as ApiTags[],
+    tagTypes: ['Products', 'Cart', 'Favorites', 'adminProduct'],
     endpoints: (builder) => ({
         getProducts: builder.query<BaseItem[], { categoryId: number, search?: string}> ({
             query: ({ categoryId, search }) => ({
@@ -109,7 +106,7 @@ export const apiSlice = createApi({
                 ...(search ? { search } : {})
                 }
             }),
-            providesTags: ['Product']
+            providesTags: ['Products']
         }),
 
         getCart: builder.query<CartResponse, void>({
@@ -125,7 +122,7 @@ export const apiSlice = createApi({
                 totalCount: response.Products?.reduce(
                     (sum, item) => sum + item.CartItem.quantity, 0 
                 )
-            })
+            }),
 
         }),
 
@@ -209,7 +206,7 @@ export const apiSlice = createApi({
                     inStock
                 }
             }),
-            invalidatesTags: ['Product', 'adminProduct']
+            invalidatesTags: ['Products', 'adminProduct']
         }),
         editProduct: builder.mutation<ProductResponse, ProductInput>({
 
@@ -221,14 +218,14 @@ export const apiSlice = createApi({
                 }}
                 
             },
-            invalidatesTags: ['Product', 'adminProduct']
+            invalidatesTags: ['Products', 'adminProduct']
         }),
         deleteProduct: builder.mutation<{ message: string}, {id: number}>({
             query: ({ id }) => ({
                 url: `/admin/products/${id}`,
                 method: 'DELETE'
             }),
-            invalidatesTags: ['Product', 'adminProduct']
+            invalidatesTags: ['Products', 'adminProduct']
         }),
         updateInStock: builder.mutation<{ message: string, inStock: number }, { amount: number, id: number}>({
             query: ({ amount, id }) => ({
@@ -238,7 +235,7 @@ export const apiSlice = createApi({
                     amount
                 }
             }),
-            invalidatesTags: ['Product', 'adminProduct']
+            invalidatesTags: ['Products', 'adminProduct']
         })
         
     })

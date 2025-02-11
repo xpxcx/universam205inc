@@ -2,9 +2,13 @@ import React from "react";
 import { useNavigate } from "react-router";
 import { useEditUserRoomMutation, useGetCurrentUserQuery, useSignOutMutation } from "../../redux/userApiSlice";
 import styles from './styles.module.scss';
+import { useGetCartQuery } from "../../redux/apiSlice";
+
 export const User = () => {
-    const { data: user } = useGetCurrentUserQuery();
+    const { data: user } = useGetCurrentUserQuery(undefined, {skip: !localStorage.getItem("token")});
     const [editRoom] = useEditUserRoomMutation();
+    const { refetch: refetchCart } = useGetCartQuery();
+
     const [clickEdit, setClickEdit] = React.useState(false);
     const [inputRoom, setInputRoom] = React.useState('');
     const navigate = useNavigate();
@@ -12,7 +16,6 @@ export const User = () => {
         setInputRoom(e.target.value);
     } 
     const [signOut] = useSignOutMutation();
-    const { refetch } = useGetCurrentUserQuery();
     const onClickSaveRoom = async () => {
 
         if(clickEdit) {
@@ -24,10 +27,10 @@ export const User = () => {
         setClickEdit(false);
     }
 
-    const onClickExit = () => {
-        signOut();
-        refetch();
-        navigate('/authorization')
+    const onClickExit = async() => {
+        await signOut();
+        navigate('/authorization');
+        refetchCart();
     }
     return (
         <div className={styles.container}>
