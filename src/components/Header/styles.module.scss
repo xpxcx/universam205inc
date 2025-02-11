@@ -6,7 +6,7 @@
     padding-left: 15px;
     .title {
       @media (max-width: 414px) {
-        font-size: 23px;
+        font-size: 21px;
       }
     }
     a {
@@ -32,11 +32,19 @@
       border-radius: 11px;
       background-color: rgb(98, 189, 98);
       width: auto;
-      height: 35px;
+      height: 25px;
       padding: 5px;
       transition: 0.1s ease-in-out;
+      margin-bottom: 5px;
+      
       img {
         margin-right: 3px;
+        width: 35px;
+        height: 35px;
+        @media (max-width: 555px) {
+          width: 25px;
+          height: 25px;
+        }
       }
       &:active {
         background-color: darken(rgb(98, 189, 98), 15%);
@@ -45,17 +53,35 @@
     .totalPrice {
       margin: 0;
       margin-bottom: 1px;
-      // margin-left: px;
       margin-right: 3px;
       text-decoration: none;
+      @media (max-width: 555px) {
+        font-size: 15px;
+      }
     }
     .admin {
-          width: 35px;
-          height: 35px;
+        width: 35px;
+        height: 35px;
+        @media (max-width: 555px) {
+          width: 25px;
+          height: 25px;
+        }
     }
     .favorite{
           width: 25px;
           height: 25px;
+          @media (max-width: 555px) {
+            width: 21px;
+            height: 21px;
+          }
+    }
+    .profile {
+      width: 35px;
+      height: 35px;
+      @media (max-width: 555px) {
+        width: 25px;
+        height: 25px;
+      }
     }
   }
   

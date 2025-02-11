@@ -22,14 +22,14 @@ export const Header = () => {
                     </Link>
                     }
                     
-                    <Link to='/profile'><img className={styles.profile} src="img/profile.svg" alt="profilcde" width={35} height={35}/></Link>
+                    <Link to='/profile'><img className={styles.profile} src="img/profile.svg" alt="profilcde"/></Link>
                     <Link to='/favorite'>
                             <img className={styles.favorite} src="/img/liked.svg" alt=""/>
                     </Link>
                     <Link to='/cart'>
                         <div className={styles.cart}>
                             
-                                <img src="/img/cart-logo.svg" alt="" width={35} height={35}/>
+                                <img src="/img/cart-logo.svg" alt=""/>
                             {localStorage.getItem('token') !== null && cartItem?.totalPrice !== 0 &&  <p className={styles.totalPrice}>{Math.round(cartItem?.totalPrice ?? 0)}₽</p>}
                            
                         </div>
