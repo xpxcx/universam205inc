@@ -28,8 +28,11 @@ export const Search = () => {
 
     return (
         <div className={styles.search} >
-            <input className={styles.searchInput} ref={inputRef} type="text" placeholder="Поиск..." value={value} onChange={(event) => onChangeValue(event)}/>
-            <img className={styles.clearItemImg} src="/img/cross.svg" alt="cross" width={11} height={11} onClick={() => onClickClearValue()}/>
+            <div className={styles.searchBlock}>
+                <input className={styles.searchInput} ref={inputRef} type="text" placeholder="Поиск..." value={value} onChange={(event) => onChangeValue(event)}>
+                </input>
+                <img className={styles.clearItemImg} src="/img/cross.svg" alt="cross" width={11} height={11} onClick={() => onClickClearValue()}/>
+            </div>
         </div>
     );
 };

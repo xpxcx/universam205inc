@@ -5,7 +5,11 @@
     margin: 0;
     margin-right: 15px;
   }
-
+  .searchBlock {
+    display: flex;
+    width: 185px;
+    position: relative;
+  }
 .searchInput {
   border-radius: 15px;
   padding: 7px;
@@ -13,9 +17,13 @@
 }
 .clearItemImg {
   position: absolute;
-  right: 17px;
+  right: 15px;
   top: 12px;
   opacity: 0.5;
+  @media(max-width: 555px) {
+    right: 27px;
+    top: 9px
+  } 
   &:hover {
     cursor: pointer;
     opacity: 1;
