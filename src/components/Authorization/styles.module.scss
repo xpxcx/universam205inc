@@ -9,6 +9,11 @@
         height: 455px;
         
     }
+    form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }
 .auhorizationBlock {
     border: 1px solid;
