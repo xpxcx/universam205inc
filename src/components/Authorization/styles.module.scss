@@ -4,20 +4,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    justify-self: center;
     @media (max-width: 510px) {
         width: 87%;
         height: 455px;
         
     }
 }
-
 .auhorizationBlock {
     border: 1px solid;
     border-color: rgb(221, 218, 215);
     width: 415px;
     height: 305px;
-
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.191);
     border-radius: 19px;
