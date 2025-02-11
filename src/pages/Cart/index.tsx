@@ -17,11 +17,11 @@ interface CartQuantityState {
 export const Cart = () => {
     const [isOrderModalOpened, setIsOrderModalOpened] = React.useState(false);
     const [orderResponse, setOrderResponse] = React.useState<OrderResponse | null>(null);
-    const { data: cartItem, isLoading } = useGetCartQuery();
+    const { data: cartItem, isLoading: isLoadingCart } = useGetCartQuery();
     const [removeFromCart] = useRemoveFromCartMutation();
     const [removeAllCart] = useRemoveAllCartMutation();
     const [updateCountProduct] = useUpdateCountProductMutation();
-    const [createOrder] = useCreateOrderMutation();
+    const [createOrder, { isLoading: isLoadingCreateOrder}] = useCreateOrderMutation();
     const [cartQuantity, setCartQuantity] = React.useState<CartQuantityState[]>([]);
     const { refetch: refetchCart } = useGetCartQuery();
     const onClickDelelte = (productId:number) => (
@@ -81,13 +81,19 @@ export const Cart = () => {
         refetchCart();
     } 
     return (
-        isLoading ? 
+        isLoadingCart ? 
             <div className={styles.loadingWindow}>
             <Flex align="center" gap="middle">
             <Spin indicator={<LoadingOutlined style={{fontSize: 65}}spin />} size="large"  className={styles.spinner}/>
             </Flex> 
             </div> 
             :  
+            isLoadingCreateOrder ?  <div className={styles.loadingWindow}>
+            <Flex align="center" gap="middle">
+            <Spin indicator={<LoadingOutlined style={{fontSize: 65}}spin />} size="large"  className={styles.spinner}/>
+            </Flex> 
+            </div> 
+            :
        ( cartItem?.totalCount === 0 || !localStorage.getItem('token')) ?
         <CartEmpty/> 
         :
