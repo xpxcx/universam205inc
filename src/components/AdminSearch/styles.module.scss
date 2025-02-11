@@ -20,9 +20,9 @@
   right: 15px;
   top: 12px;
   opacity: 0.5;
-  @media(max-width: 555px) {
+  @media(max-width: 555px) {  
     right: 37px;
-    top: 12px
+    top: 10px
   } 
   &:hover {
     cursor: pointer;

@@ -3,7 +3,11 @@
     display: flex;
     width: 97%;    
     justify-content: space-between;
+    align-items: center;
     padding-left: 15px;
+    @media (max-width: 414px) {
+      height: 75px;
+    }
     .title {
       @media (max-width: 414px) {
         font-size: 21px;
