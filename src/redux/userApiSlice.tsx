@@ -28,7 +28,10 @@ export interface SignInInputData {
 
 export const userApiSlice = createApi({
     reducerPath: 'userApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001/api/users',
+    baseQuery: fetchBaseQuery({ 
+        baseUrl: `${import.meta.env.MODE === 'production' 
+            ? import.meta.env.VITE_PRODUCTION_API_URL 
+            : import.meta.env.VITE_API_URL}/users`,
         prepareHeaders: (headers) => {
             const token = localStorage.getItem('token');
             if (token) {
