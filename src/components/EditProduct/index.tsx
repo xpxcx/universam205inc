@@ -70,7 +70,7 @@ export const EditProduct = () => {
                 <div className={styles.countPrice}>
                 <p className={styles.pricetext}>Цена за 1 шт:</p>
 
-                    <form onSubmit={handleSubmit(onClickUpdate)}>
+                <form onSubmit={handleSubmit(onClickUpdate)}>
                 
                 <div className={styles.countItem}>
                     
@@ -80,7 +80,8 @@ export const EditProduct = () => {
                             ...register('inStock', {
                                 valueAsNumber: true
                             })
-                        }defaultValue={obj.inStock}></input> 
+                        }>
+                        </input> 
                         <div className={styles.acceptChange}></div>
                         <button>
                         ✓

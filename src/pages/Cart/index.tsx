@@ -18,8 +18,8 @@ export const Cart = () => {
     const [isOrderModalOpened, setIsOrderModalOpened] = React.useState(false);
     const [orderResponse, setOrderResponse] = React.useState<OrderResponse | null>(null);
     const { data: cartItem, isLoading: isLoadingCart } = useGetCartQuery();
-    const [removeFromCart] = useRemoveFromCartMutation();
-    const [removeAllCart] = useRemoveAllCartMutation();
+    const [removeFromCart, { isLoading: isLoadingRemoveItem }] = useRemoveFromCartMutation();
+    const [removeAllCart, { isLoading: isLoadingRemove }] = useRemoveAllCartMutation();
     const [updateCountProduct] = useUpdateCountProductMutation();
     const [createOrder, { isLoading: isLoadingCreateOrder}] = useCreateOrderMutation();
     const [cartQuantity, setCartQuantity] = React.useState<CartQuantityState[]>([]);
@@ -58,7 +58,7 @@ export const Cart = () => {
                     quantity: item.quantity
                 });
             });
-        }, 1000);
+        }, 300);
         debouncedUpdate();
         return () => debouncedUpdate.cancel();
     }, [cartQuantity, updateCountProduct]);
@@ -94,11 +94,18 @@ export const Cart = () => {
             </Flex> 
             </div> 
             :
-       ( cartItem?.totalCount === 0 || !localStorage.getItem('token')) ?
+        (cartItem?.totalCount === 0 || !localStorage.getItem('token')) ?
         <CartEmpty/> 
         :
         (<div className={styles.cart}>
+
+            {isLoadingRemove ? 
+            <div className={styles.loadingRemove}>
+                <Spin indicator={<LoadingOutlined spin style={{ fontSize: 17.55}}/>}  size="large"/>
+            </div> 
+             :
             <button className={styles.clearCartButton} onClick={() => removeAllCart()}>Очистить корзину</button>
+}
             <div className={styles.items}>
                 {cartItem?.Products?.map((obj) => (
                 
@@ -119,12 +126,17 @@ export const Cart = () => {
                 <div className={styles.countItem}>
                     <button className={styles.plus} onClick={() => onClickPlus(obj.id, obj.CartItem.quantity)} disabled={obj.inStock <= (cartQuantity.find(item => item.productId === obj.id)?.quantity ?? obj.CartItem?.quantity)}>+</button>
                     <p className={styles.count}>{cartQuantity.find(item => item.productId === obj.id)?.quantity ?? obj.CartItem.quantity}</p>
-                    <button className={styles.minus} onClick={() => onClickMinus(obj.id, obj.CartItem.quantity)} disabled={obj.CartItem.quantity === 1}>-</button>
+                    <button className={styles.minus} onClick={() => onClickMinus(obj.id, obj.CartItem.quantity)} disabled={obj.CartItem.quantity === 1 || cartQuantity.find(item => item.productId === obj.id)?.quantity === 1}>-</button>
                 </div>
+                {isLoadingRemoveItem 
+                ? 
+                <div className={styles.loadingRemoveItem}>
+                    <Spin indicator={<LoadingOutlined spin style={{ fontSize: 17.55}}/>}  size="large"/>
+                </div> 
+                : 
                     <img className={styles.trash} src='/img/trash.svg' width={17} height={17} onClick={() => onClickDelelte(obj.id)}/>
+                }
             </div>
-                
-                
             ))}
             </div>
             <div className={styles.priceAndOrder}>

@@ -9,8 +9,9 @@
       height: 75px;
     }
     .title {
-      @media (max-width: 414px) {
+      @media (max-width: 555px) {
         font-size: 21px;
+        margin-top: 21px;
       }
     }
     a {

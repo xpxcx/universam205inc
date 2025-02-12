@@ -1,14 +1,22 @@
 import { Link } from 'react-router';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Flex, Spin } from 'antd';
-import { useAddToCartMutation, useGetFavoriteQuery, useRemoveAllFavoriteMutation, useRemoveFromFavoriteMutation } from '../../redux/apiSlice';
+import { useAddToCartMutation, useGetCartQuery, useGetFavoriteQuery, useGetProductsQuery, useRemoveAllFavoriteMutation, useRemoveFromCartMutation, useRemoveFromFavoriteMutation } from '../../redux/apiSlice';
 import { FavoriteEmpty } from './FavoriteEmprty';
+import { ClockCircleOutlined, CheckOutlined } from '@ant-design/icons'
 import styles from './styles.module.scss';
 
 export const Favorite = () => {
     const { data: favoriteItem, isLoading } = useGetFavoriteQuery();
-    const [removeFromFavorite] = useRemoveFromFavoriteMutation();
-    const [addToCart] = useAddToCartMutation();
+    const [removeFromFavorite, { isLoading: isLoadingRemoveItem }] = useRemoveFromFavoriteMutation();
+    const [addToCart, { isLoading: isLoadingAddToCart }] = useAddToCartMutation();
+    const [removeAllFavorite, { isLoading: isLoadingRemove}] = useRemoveAllFavoriteMutation();
+    const [removeFromCart] = useRemoveFromCartMutation();
+    const { data: cartItem } = useGetCartQuery();
+    const { data: Product } = useGetProductsQuery({categoryId: 0, search: ''});
+    console.log(cartItem?.Products.map((obj) => (
+        obj.id
+    )));
     const onClickDelelte = (productId: number) => (
         removeFromFavorite(productId)
     );
@@ -18,7 +26,9 @@ export const Favorite = () => {
             quantity: 1
         })
     };
-    const [removeAllFavorite] = useRemoveAllFavoriteMutation();
+    const onClickDeleteFromCart = (productId:number) => (
+        removeFromCart(productId)
+    );
     if (!localStorage.getItem('token')) {
         return <div className={styles.unAuth}>
             <h3>Похоже, Вы ещё не авторизованы</h3>
@@ -40,7 +50,13 @@ export const Favorite = () => {
         <FavoriteEmpty /> 
         :
         (<div className={styles.cart}>
+            {isLoadingRemove ? 
+            <div className={styles.loadingRemove}>
+                <Spin indicator={<LoadingOutlined spin style={{ fontSize: 17.55}}/>}  size="large"/>
+            </div> 
+             :
             <button className={styles.clearCartButton} onClick={() => removeAllFavorite()}>Очистить избранное</button>
+            }
             <div className={styles.items}> 
 
                 {favoriteItem?.Products.map((obj) => (
@@ -48,6 +64,7 @@ export const Favorite = () => {
                 <div key={obj.id} className={styles.item}>
 
                 <div className={styles.itemimg}>
+
                     <img src={obj.imageUrl} alt="items-img" />
                 </div>
                 <div className={styles.productInfo}>
@@ -56,9 +73,33 @@ export const Favorite = () => {
                     <p className={styles.price}>{obj.price} ₽</p>
                 </div>
                 <div className={styles.likedCart}>
+                    {isLoadingRemoveItem 
+                    ?
+                    <div className={styles.loadingRemoveItem}>
+                        <Spin indicator={<LoadingOutlined spin style={{ fontSize: 19}}/>}  size="large"/>
+                    </div>  
+                    :
                     <img className={styles.liked} src='/img/liked.svg'onClick={() => onClickDelelte(obj.id)}/>
+                    }
+                    {isLoadingAddToCart 
+                    ?
+                    <div className={styles.addCartButton}>
+                        <Spin indicator={<LoadingOutlined spin style={{ fontSize: 19}}/>}  size="large"/>
+                    </div>  
+                    :
+                    cartItem?.Products.some(item => item.id === obj.id) ?
+                    <div className={styles.addToCart}>
+                        <CheckOutlined style={{ fontSize: 23}} onClick={() => onClickDeleteFromCart(obj.id)}/>
+                    </div>
+                    :
+                    Product?.find(item => item.id === obj.id)?.inStock === 0 
+                    ?
+                    <div className={styles.inStockNull}>
+                        <ClockCircleOutlined style={{ fontSize: 23 }}/>
+                    </div>
+                    :
                     <img className={styles.addCartButton} src="/img/add-cart.svg" alt="plus" onClick={() => addToCartBtn(obj.id)}/>
-
+                    }
                 </div>
             </div>
             ))}

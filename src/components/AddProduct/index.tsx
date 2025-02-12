@@ -1,6 +1,8 @@
 import { useForm } from 'react-hook-form';
 import styles from './styles.module.scss';
 import { useAddProductMutation } from '../../redux/apiSlice';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Flex, Spin } from 'antd';
 type FormInput = {
     id: number,
     title: string,
@@ -14,7 +16,7 @@ type FormInput = {
 }
 
 export const AddProduct = () => {
-    const [addProduct] = useAddProductMutation();
+    const [addProduct, { isLoading }] = useAddProductMutation();
 
 const onClickAddBtn = async (data: FormInput) => {
     try {
@@ -110,7 +112,14 @@ const onClickAddBtn = async (data: FormInput) => {
                     placeholder='Количество'/> 
 
                 </div>
-                <button className={styles.addBtn}>Добавить</button>
+                {isLoading 
+                ? 
+                    <Flex align="center" gap="middle">
+                        <Spin indicator={<LoadingOutlined spin />} size="large"  className={styles.spinner}/>
+                    </Flex> 
+                :  
+                    <button className={styles.addBtn}>Добавить</button>
+                }
             </div>
         
 

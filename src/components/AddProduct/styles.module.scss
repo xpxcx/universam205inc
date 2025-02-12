@@ -5,6 +5,9 @@
     align-items: center;
     flex-direction: column;
 }
+.spinner {
+    margin-top: 15px;
+}
 .inputBlock {
     display: grid;
     grid-template-columns: repeat(8 1fr);
