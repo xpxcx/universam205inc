@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { sequelize, Order, OrderItem, Cart, CartItem, Product, User } = require('../models');
 const { Op } = require('sequelize');
 const authMiddleware = require('../middleware/auth');
+const { sendOrderNotification } = require('../utils/telegramNotifier');
 
 // Создание заказа из корзины
 router.post('/', authMiddleware, async (req, res) => {
@@ -88,6 +89,10 @@ router.post('/', authMiddleware, async (req, res) => {
             });
 
             return orderWithItems;
+        });
+
+        sendOrderNotification(result, user).catch(err => {
+            console.error('Failed to send Telegram notification:', err);
         });
 
         res.status(201).json(result);

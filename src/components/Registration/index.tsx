@@ -50,6 +50,12 @@ export const Registration = () => {
             if(error.data?.message === 'Пользователь с таким логином уже существует') {
                 setErrorMessage('Пожалуйста, придумайте другой логин');
             }
+            if(error.data?.message === "null value in column \"room\" violates not-null constraint") {
+                alert('Комната обязательна')
+            }
+            if(error.data?.message === "Логин и пароль обязательны") {
+                alert('Логин и пароль обязательны');
+            }
         }
     };
     
@@ -62,11 +68,7 @@ export const Registration = () => {
 
                     <div className={styles.dataBlock}>
                         <input 
-                        {...register('login',
-                            {
-                                required: 'Логин обязателен'
-                            }
-                        )}
+                        {...register('login')}
                         className={styles.inputLogin} 
                         type="text" 
                         placeholder='Логин' 
@@ -74,11 +76,7 @@ export const Registration = () => {
                         />
                         {errors.login && <p>{errors.login.message}</p>}
                         <input 
-                        {...register('password',
-                            {
-                                required: 'Пароль обязателен'
-                            }
-                        )} 
+                        {...register('password')} 
                         className={styles.inputPassword} 
                         type="text" 
                         placeholder='Пароль' 
@@ -89,7 +87,7 @@ export const Registration = () => {
                         {...register('room')}  
                         className={styles.inputRoom} 
                         type="text" 
-                        placeholder='Комната (Необязательно)' 
+                        placeholder='Комната' 
                         value={registrData.room} onChange={onInputData}
                         onFocus={() => setErrorMessage('')}
                         />

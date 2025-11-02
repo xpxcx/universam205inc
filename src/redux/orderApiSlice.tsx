@@ -70,6 +70,10 @@ export const orderApiSlice = createApi({
             query: ({ id }) => `/orders/${id}`,
             providesTags: ['Order']
         }),
+        getAllOrder: builder.query<OrderResponse[], void> ({
+            query: () => `/orders`,
+            providesTags: ['Order']
+        }),
         
     }),
     
@@ -80,4 +84,5 @@ export const {
     useCreateOrderMutation,
     useOrderEditRoomMutation,
     useGetOrderQuery,
+    useGetAllOrderQuery,
 } = orderApiSlice;

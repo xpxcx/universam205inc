@@ -46,7 +46,8 @@ export const Order: React.FC<Order> = ({ orderResponse }) => {
                     <p>Оплата:</p>
                     <img src="/img/payment.jpg" alt="" width={135} height={135}/>
                     <p>Или</p>
-                    <p>8 (922) 775-90-02    (СберБанк)</p>
+                    <a href="tel: +7 (922) 775-90-02">+7 (922) 775-90-02</a>
+                    <span>СберБанк</span>
                 </div>
                 </div>
                 <div className={styles.delivery}>

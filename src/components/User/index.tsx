@@ -1,6 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router";
 import { useEditUserRoomMutation, useGetCurrentUserQuery, useSignOutMutation } from "../../redux/userApiSlice";
+import { useGetAllOrderQuery } from "../../redux/orderApiSlice";
+import { Link } from "react-router";
 import styles from './styles.module.scss';
 import { useGetCartQuery } from "../../redux/apiSlice";
 import { LoadingOutlined } from '@ant-design/icons';
@@ -9,7 +11,7 @@ export const User = () => {
     const { data: user, isLoading } = useGetCurrentUserQuery(undefined, {skip: !localStorage.getItem("token")});
     const [editRoom] = useEditUserRoomMutation();
     const { refetch: refetchCart } = useGetCartQuery();
-
+    const { data: orders } = useGetAllOrderQuery();
     const [clickEdit, setClickEdit] = React.useState(false);
     const [inputRoom, setInputRoom] = React.useState('');
     const navigate = useNavigate();
@@ -27,7 +29,8 @@ export const User = () => {
         }
         setClickEdit(false);
     }
-
+    console.log(orders);
+    console.log()
     const onClickExit = async() => {
         await signOut();
         navigate('/authorization');
@@ -59,11 +62,14 @@ export const User = () => {
                         <img className={styles.settingButton}src="/img/edit-button.svg" alt="edit" width={17} height={17} onClick={() => setClickEdit(true)}/>
                     </>
                     }
-                   
-               
+                </div>
+                <div>
+                    <Link to='/my-orders'>
+                    Мои Заказы
+                    </Link>
                 </div>
                 <button className={styles.exitBtn} onClick={onClickExit} >Выйти</button>
-
+                
             </div>
             </div> 
             }

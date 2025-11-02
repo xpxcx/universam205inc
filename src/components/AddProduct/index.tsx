@@ -18,25 +18,27 @@ type FormInput = {
 export const AddProduct = () => {
     const [addProduct, { isLoading }] = useAddProductMutation();
 
-const onClickAddBtn = async (data: FormInput) => {
-    try {
-        await addProduct(data);
-    }catch(error) {
-        console.log(error);
-    }
 
-}
     const {
         register,
         handleSubmit,
         // formState: {
         //     errors
         // },
-        // reset,
+        reset,
         // clearErrors
 
     } = useForm<FormInput>();
 
+    const onClickAddBtn = async (data: FormInput) => {
+        try {
+            await addProduct(data);
+            reset();
+        }catch(error) {
+            console.log(error);
+        }
+    
+    }
     return (
         <form onSubmit={handleSubmit(onClickAddBtn)}>
             <div className={styles.containerAdmin}>
